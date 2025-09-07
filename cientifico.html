@@ -234,10 +234,15 @@
         return;
       }
       try {
-        await updateDoc(doc(db, "progresos", userGlobal.uid), {
-          ejerciciosHechos: arrayUnion(num)
-        });
-        await actualizarProgreso();
+        const userDocRef = doc(db, "progresos", userGlobal.uid);
+        const docSnap = await getDoc(userDocRef);
+        if (!docSnap.exists()) {
+          await setDoc(userDocRef, { ejerciciosHechos: [num] });
+        } else {
+          await updateDoc(userDocRef, { ejerciciosHechos: arrayUnion(num) });
+        }
+        // Esperamos un momento para que Firestore procese el arrayUnion
+        setTimeout(actualizarProgreso, 200);
       } catch (error) {
         console.error("Error al guardar progreso:", error.message);
       }
