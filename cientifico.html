@@ -94,32 +94,23 @@
       color: #555;
     }
 
-    /* Login */
-    .login-container {
-      margin-left: 220px;
-      padding: 20px;
-      background: #f4f4f4;
-      border-bottom: 2px solid #ccc;
-    }
-    .login-container input {
-      padding: 8px;
-      margin: 5px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    /* Progreso */
-    .progress-bar {
-      margin: 20px 0;
-      background: #ddd;
+    /* Barra de progreso */
+    .progress-container {
+      width: 100%;
+      background: #eee;
       border-radius: 10px;
+      margin: 20px 0;
+      height: 25px;
       overflow: hidden;
-      height: 20px;
     }
-    .progress-bar-fill {
+    .progress-bar {
       height: 100%;
-      background: #0af;
       width: 0%;
+      background: #0af;
+      text-align: center;
+      color: white;
+      line-height: 25px;
+      font-size: 14px;
       transition: width 0.3s ease;
     }
   </style>
@@ -131,40 +122,43 @@
     <ul id="indice"></ul>
   </div>
 
-  <!-- Login / Registro -->
-  <div class="login-container">
-    <div id="authForms">
-      <input type="email" id="email" placeholder="Correo">
-      <input type="password" id="password" placeholder="Contraseña">
-      <button class="btn" id="registerBtn">Registrarse</button>
-      <button class="btn" id="loginBtn">Iniciar Sesión</button>
+  <!-- Contenido -->
+  <div class="content">
+    <!-- Login -->
+    <div style="margin-bottom:20px;">
+      <button id="loginBtn" class="btn" onclick="loginWithGoogle()">Iniciar sesión con Google</button>
+      <button id="logoutBtn" class="btn" onclick="logout()" style="display:none;">Cerrar sesión</button>
+      <span id="userInfo" style="margin-left:10px; font-weight:bold;"></span>
     </div>
-    <div id="userInfo" style="display:none;">
-      <span id="userEmail"></span>
-      <button class="btn" id="logoutBtn">Cerrar Sesión</button>
+
+    <!-- Barra de progreso -->
+    <div class="progress-container">
+      <div id="progressBar" class="progress-bar">0%</div>
     </div>
-    <div class="progress-bar">
-      <div class="progress-bar-fill" id="progressFill"></div>
-    </div>
-    <p id="progressText">Progreso: 0%</p>
+
+    <div id="contenido"></div>
   </div>
 
-  <!-- Contenido -->
-  <div class="content" id="contenido"></div>
-
-  <!-- Firebase + lógica -->
+  <!-- Script Firebase -->
   <script type="module">
-    // Importar SDKs
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
     import { 
-      getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, 
-      signOut, onAuthStateChanged 
+      getAuth, 
+      GoogleAuthProvider, 
+      signInWithPopup, 
+      signOut, 
+      onAuthStateChanged 
     } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
     import { 
-      getFirestore, doc, setDoc, getDoc, updateDoc 
+      getFirestore, 
+      doc, 
+      setDoc, 
+      getDoc, 
+      updateDoc, 
+      arrayUnion 
     } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-    // Configuración Firebase (TU proyecto)
+    // 🔑 Configuración Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyC8XKDRQ6iRdpEJXcaCp8vqaALVk7Di_P8",
       authDomain: "mates-catalunya-selectividad.firebaseapp.com",
@@ -175,21 +169,18 @@
       measurementId: "G-XDJTHHEL8Y"
     };
 
-    // Inicializar Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Variables globales
     const totalEjercicios = 100;
-    let ejerciciosHechos = [];
+    let userGlobal = null;
 
     const indice = document.getElementById("indice");
     const contenido = document.getElementById("contenido");
-    const progressFill = document.getElementById("progressFill");
-    const progressText = document.getElementById("progressText");
+    const progressBar = document.getElementById("progressBar");
 
-    // Renderizar ejercicios
+    // Render ejercicios
     for (let i = 1; i <= totalEjercicios; i++) {
       const li = document.createElement("li");
       li.innerHTML = `<a href="#ej${i}">Ejercicio ${i}</a>`;
@@ -206,83 +197,93 @@
           <img src="img/sol${i}.png" alt="Solución Ejercicio ${i}">
         </div>
         <div class="video">🔒 Video Premium - Inicia sesión para ver</div>
-        <button class="btn" onclick="marcarHecho(${i})">Marcar como visto</button>
+        <button class="btn" onclick="marcarVisto(${i})">Marcar como visto</button>
       `;
       contenido.appendChild(div);
     }
 
-    // Funciones globales
+    // Mostrar solución
     window.mostrarSolucion = function(num) {
       const solDiv = document.getElementById("sol" + num);
       solDiv.style.display = "block";
-    };
-
-    window.marcarHecho = async function(num) {
-      if (!auth.currentUser) {
-        alert("Inicia sesión para guardar tu progreso.");
-        return;
-      }
-      if (!ejerciciosHechos.includes(num)) {
-        ejerciciosHechos.push(num);
-        await updateDoc(doc(db, "progresos", auth.currentUser.uid), {
-          ejerciciosHechos: ejerciciosHechos
-        });
-        actualizarProgreso();
-      }
-    };
-
-    function actualizarProgreso() {
-      const porcentaje = Math.round((ejerciciosHechos.length / totalEjercicios) * 100);
-      progressFill.style.width = porcentaje + "%";
-      progressText.textContent = `Progreso: ${porcentaje}%`;
     }
 
-    // Registro/Login/Logout
-    document.getElementById("registerBtn").onclick = async () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        await setDoc(doc(db, "progresos", userCredential.user.uid), { ejerciciosHechos: [] });
-      } catch (err) {
-        alert("Error registro: " + err.message);
+    // Marcar ejercicio como visto
+    window.marcarVisto = async function(num) {
+      if (!userGlobal) {
+        alert("Debes iniciar sesión con Google");
+        return;
       }
-    };
-
-    document.getElementById("loginBtn").onclick = async () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
       try {
-        await signInWithEmailAndPassword(auth, email, password);
-      } catch (err) {
-        alert("Error login: " + err.message);
-      }
-    };
-
-    document.getElementById("logoutBtn").onclick = async () => {
-      await signOut(auth);
-    };
-
-    // Observador de sesión
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        document.getElementById("authForms").style.display = "none";
-        document.getElementById("userInfo").style.display = "block";
-        document.getElementById("userEmail").textContent = user.email;
-
-        // Cargar progreso
-        const snap = await getDoc(doc(db, "progresos", user.uid));
-        if (snap.exists()) {
-          ejerciciosHechos = snap.data().ejerciciosHechos || [];
-          actualizarProgreso();
-        }
-      } else {
-        document.getElementById("authForms").style.display = "block";
-        document.getElementById("userInfo").style.display = "none";
-        ejerciciosHechos = [];
+        await updateDoc(doc(db, "progresos", userGlobal.uid), {
+          ejerciciosHechos: arrayUnion(num)
+        });
+        console.log("Ejercicio guardado:", num);
         actualizarProgreso();
+      } catch (error) {
+        console.error("Error al guardar progreso:", error.message);
+      }
+    }
+
+    // Login con Google
+    window.loginWithGoogle = async function() {
+      try {
+        const provider = new GoogleAuthProvider();
+        const result = await signInWithPopup(auth, provider);
+        console.log("Login con Google:", result.user.uid);
+
+        const userDoc = await getDoc(doc(db, "progresos", result.user.uid));
+        if (!userDoc.exists()) {
+          await setDoc(doc(db, "progresos", result.user.uid), { ejerciciosHechos: [] });
+        }
+      } catch (error) {
+        console.error("Error Google login:", error.message);
+      }
+    }
+
+    // Logout
+    window.logout = async function() {
+      await signOut(auth);
+      console.log("Sesión cerrada");
+    }
+
+    // Mantener sesión activa
+    onAuthStateChanged(auth, async (user) => {
+      const loginBtn = document.getElementById("loginBtn");
+      const logoutBtn = document.getElementById("logoutBtn");
+      const userInfo = document.getElementById("userInfo");
+
+      if (user) {
+        userGlobal = user;
+        loginBtn.style.display = "none";
+        logoutBtn.style.display = "inline-block";
+        userInfo.innerText = `Hola, ${user.displayName}`;
+
+        await actualizarProgreso();
+      } else {
+        userGlobal = null;
+        loginBtn.style.display = "inline-block";
+        logoutBtn.style.display = "none";
+        userInfo.innerText = "";
+        progressBar.style.width = "0%";
+        progressBar.innerText = "0%";
       }
     });
+
+    // Actualizar barra de progreso
+    async function actualizarProgreso() {
+      if (!userGlobal) return;
+
+      const docSnap = await getDoc(doc(db, "progresos", userGlobal.uid));
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        const hechos = data.ejerciciosHechos.length;
+        const porcentaje = Math.round((hechos / totalEjercicios) * 100);
+        progressBar.style.width = porcentaje + "%";
+        progressBar.innerText = porcentaje + "%";
+      }
+    }
   </script>
 </body>
 </html>
+
