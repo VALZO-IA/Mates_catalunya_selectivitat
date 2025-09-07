@@ -34,15 +34,16 @@
       height: 100%;
       font-family: "Segoe UI", Arial, sans-serif;
       background: #f4f4f4;
-      overflow: hidden; /* 🚫 sin scroll */
+      overflow: hidden;
     }
 
     /* 📌 Contenedor principal */
     .container {
       display: flex;
-      height: calc(100% - 70px); /* deja hueco exacto para el footer */
-      gap: 20px; /* separación entre bloques */
-      padding: 20px; /* margen lateral */
+      height: calc(100% - 140px); /* ✅ descuenta header (70px) + footer (70px) */
+      margin-top: 70px; /* ✅ evita que las imágenes se oculten debajo del header */
+      gap: 20px;
+      padding: 20px;
     }
 
     .split {
@@ -60,7 +61,7 @@
     .split img {
       width: 90%;
       height: 90%;
-      object-fit: contain; /* ✅ mantiene proporción */
+      object-fit: contain;
       border-radius: 15px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
       transition: transform 0.4s ease;
@@ -68,18 +69,6 @@
 
     .split:hover img {
       transform: scale(1.03);
-    }
-
-    .overlay {
-      position: absolute;
-      z-index: 2;
-      color: #fff;
-      font-size: 2rem;
-      font-weight: 700;
-      text-align: center;
-      text-shadow: 0 3px 12px rgba(0,0,0,0.85);
-      padding: 10px 20px;
-      pointer-events: none;
     }
 
     footer {
@@ -116,6 +105,7 @@
       .container {
         flex-direction: column;
         gap: 15px;
+        height: calc(100% - 140px); /* sigue respetando header + footer */
       }
 
       .split {
@@ -128,10 +118,6 @@
         height: auto;
       }
 
-      .overlay {
-        font-size: 1.6rem;
-      }
-
       footer {
         font-size: 0.9rem;
         line-height: 1.4;
@@ -141,10 +127,6 @@
 
     /* 📱 Móviles muy pequeños */
     @media (max-width: 480px) {
-      .overlay {
-        font-size: 1.3rem;
-      }
-
       footer {
         font-size: 0.85rem;
       }
@@ -152,15 +134,14 @@
   </style>
 </head>
 <body>
-  <header> Matemáticas Selectividad Cataluña 2026 </header>
+  <header>Matemáticas Selectividad Cataluña 2026</header>
+  
   <div class="container">
     <div class="split" onclick="window.location.href='cientifico.html'">
       <img src="img/portada_c.png" alt="Matemáticas Científico">
-      
     </div>
     <div class="split" onclick="window.location.href='social.html'">
       <img src="img/portada_s.png" alt="Matemáticas Social">
-      
     </div>
   </div>
 
@@ -169,4 +150,5 @@
   </footer>
 </body>
 </html>
+
 
