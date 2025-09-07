@@ -9,11 +9,12 @@
       margin: 0;
       font-family: Arial, sans-serif;
       display: flex;
+      background: #f5f5f5;
     }
 
     /* Sidebar */
     .sidebar {
-      width: 220px;
+      width: 240px;
       background: #111;
       color: white;
       height: 100vh;
@@ -31,14 +32,19 @@
     .sidebar ul {
       list-style: none;
       padding: 0;
+      margin: 0;
     }
     .sidebar ul li {
       padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     .sidebar ul li a {
       color: white;
       text-decoration: none;
       display: block;
+      width: 100%;
       transition: 0.2s;
     }
     .sidebar ul li a:hover {
@@ -46,20 +52,29 @@
       color: black;
       border-radius: 5px;
     }
+    .sidebar ul li .done {
+      color: #0f0;
+      font-weight: bold;
+      margin-left: 5px;
+    }
 
     /* Contenido */
     .content {
-      margin-left: 220px;
+      margin-left: 240px;
       padding: 20px;
       flex: 1;
       overflow-y: auto;
-      height: 100vh;
+      min-height: 100vh;
     }
     .ejercicio {
       margin-bottom: 50px;
       border-bottom: 1px solid #ccc;
       padding-bottom: 20px;
       text-align: center;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
     .ejercicio h3 {
       margin-top: 0;
@@ -72,6 +87,7 @@
       border-radius: 5px;
       cursor: pointer;
       margin-top: 10px;
+      transition: background 0.3s;
     }
     .btn:hover {
       background: #08c;
@@ -97,21 +113,23 @@
     /* Barra de progreso */
     .progress-container {
       width: 100%;
-      background: #eee;
-      border-radius: 10px;
+      background: #e0e0e0;
+      border-radius: 20px;
       margin: 20px 0;
-      height: 25px;
+      height: 30px;
       overflow: hidden;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
     }
     .progress-bar {
       height: 100%;
       width: 0%;
-      background: #0af;
+      background: linear-gradient(90deg, #0af, #08c);
       text-align: center;
       color: white;
-      line-height: 25px;
-      font-size: 14px;
-      transition: width 0.3s ease;
+      line-height: 30px;
+      font-size: 16px;
+      font-weight: bold;
+      transition: width 0.4s ease;
     }
   </style>
 </head>
@@ -179,11 +197,13 @@
     const contenido = document.getElementById("contenido");
     const progressBar = document.getElementById("progressBar");
 
-    // Render ejercicios
+    // Render ejercicios y menú
+    const indiceItems = [];
     for (let i = 1; i <= totalEjercicios; i++) {
       const li = document.createElement("li");
-      li.innerHTML = `<a href="#ej${i}">Ejercicio ${i}</a>`;
+      li.innerHTML = `<a href="#ej${i}">Ejercicio ${i}</a><span class="done" id="done${i}"></span>`;
       indice.appendChild(li);
+      indiceItems[i] = document.getElementById(`done${i}`);
 
       const div = document.createElement("div");
       div.className = "ejercicio";
@@ -217,13 +237,13 @@
         await updateDoc(doc(db, "progresos", userGlobal.uid), {
           ejerciciosHechos: arrayUnion(num)
         });
-        actualizarProgreso();
+        await actualizarProgreso();
       } catch (error) {
         console.error("Error al guardar progreso:", error.message);
       }
     }
 
-    // Login con Google
+    // Login Google
     window.loginWithGoogle = async function() {
       try {
         const provider = new GoogleAuthProvider();
@@ -242,7 +262,7 @@
       await signOut(auth);
     }
 
-    // Mantener sesión activa y cargar progreso
+    // Mantener sesión activa y actualizar progreso
     onAuthStateChanged(auth, async (user) => {
       const loginBtn = document.getElementById("loginBtn");
       const logoutBtn = document.getElementById("logoutBtn");
@@ -261,19 +281,28 @@
         userInfo.innerText = "";
         progressBar.style.width = "0%";
         progressBar.innerText = "0%";
+        // Limpiar ticks del índice
+        for (let i = 1; i <= totalEjercicios; i++) {
+          indiceItems[i].innerText = "";
+        }
       }
     });
 
-    // Actualizar barra de progreso
+    // Actualizar barra de progreso y ticks del índice
     async function actualizarProgreso() {
       if (!userGlobal) return;
       const docSnap = await getDoc(doc(db, "progresos", userGlobal.uid));
       if (docSnap.exists()) {
         const data = docSnap.data();
-        const hechos = data.ejerciciosHechos.length;
-        const porcentaje = Math.round((hechos / totalEjercicios) * 100);
+        const hechos = data.ejerciciosHechos || [];
+        // Actualizar barra
+        const porcentaje = Math.round((hechos.length / totalEjercicios) * 100);
         progressBar.style.width = porcentaje + "%";
         progressBar.innerText = porcentaje + "%";
+        // Actualizar ticks en índice
+        for (let i = 1; i <= totalEjercicios; i++) {
+          indiceItems[i].innerText = hechos.includes(i) ? "✅" : "";
+        }
       }
     }
   </script>
