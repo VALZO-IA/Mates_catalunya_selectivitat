@@ -3,132 +3,119 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Matemáticas Científico</title>
+  <title>Matemáticas Científico - Selectividad 2026</title>
   <style>
     body {
-      font-family: "Segoe UI", Arial, sans-serif;
       margin: 0;
-      background: #f4f4f4;
-      color: #111;
+      font-family: Arial, sans-serif;
+      display: flex;
     }
 
-    header, footer {
-      background: #0c0c0c;
-      color: #fff;
-      text-align: center;
-      padding: 15px;
-      font-weight: bold;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: 80px auto 100px auto;
-      padding: 20px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-
-    .exercise img {
-      width: 100%;
-      border-radius: 8px;
-      margin-bottom: 15px;
-    }
-
-    button {
-      display: block;
-      margin: 10px auto;
-      padding: 12px 20px;
-      font-size: 1rem;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      background: #0072ff;
-      color: #fff;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      background: #0057c2;
-    }
-
-    .solution {
-      display: none;
-      margin-top: 15px;
-      padding: 15px;
-      background: #eef6ff;
-      border-radius: 8px;
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    .video-locked {
-      margin-top: 20px;
-      padding: 15px;
-      text-align: center;
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
       background: #111;
-      color: #ccc;
-      border-radius: 8px;
+      color: white;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      overflow-y: auto;
+      padding-top: 20px;
     }
-
-    .video-locked span {
-      background: linear-gradient(135deg, #00c6ff, #0072ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-weight: 700;
-    }
-
-    .progress {
-      margin-top: 20px;
+    .sidebar h2 {
       text-align: center;
+      color: #0af; /* azul */
+      margin-bottom: 20px;
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+    .sidebar ul li {
+      padding: 10px 20px;
+    }
+    .sidebar ul li a {
+      color: white;
+      text-decoration: none;
+      display: block;
+      transition: 0.2s;
+    }
+    .sidebar ul li a:hover {
+      background: #0af;
+      color: black;
+      border-radius: 5px;
+    }
+
+    /* Contenido */
+    .content {
+      margin-left: 220px;
+      padding: 20px;
+      flex: 1;
+    }
+    .ejercicio {
+      margin-bottom: 50px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 20px;
+    }
+    .ejercicio h3 {
+      margin-top: 0;
+    }
+    .btn {
+      background: #0af;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .btn:hover {
+      background: #08c;
+    }
+    .video {
+      margin-top: 15px;
+      padding: 10px;
+      border: 2px dashed #0af;
+      border-radius: 5px;
+      text-align: center;
+      color: #555;
     }
   </style>
 </head>
 <body>
-  <header> Matemáticas Científico </header>
-
-  <div class="container">
-    <div class="exercise">
-      <img src="img/ejercicio1.png" alt="Ejercicio 1 - Enunciado">
-      
-      <button onclick="toggleSolution()">Mostrar solución</button>
-      <div class="solution" id="solution">
-        Aquí iría la solución detallada (texto o imagen).
-      </div>
-
-      <div class="video-locked">
-        🔒 Contenido Premium: <span>Vídeo de la explicación</span><br>
-        Suscríbete para verlo.
-      </div>
-
-      <div class="progress">
-        <button onclick="markAsSeen()">✅ Marcar como visto</button>
-        <p id="progress-status">Progreso: No visto</p>
-      </div>
-    </div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Índice</h2>
+    <ul>
+      <li><a href="#ej1">Ejercicio 1</a></li>
+      <li><a href="#ej2">Ejercicio 2</a></li>
+      <li><a href="#ej3">Ejercicio 3</a></li>
+      <!-- ... hasta Ejercicio 100 -->
+    </ul>
   </div>
 
-  <footer>
-    <span>Por 9,99 €/mes</span> disfruta de todas las explicaciones en vídeo de los ejercicios
-  </footer>
+  <!-- Contenido -->
+  <div class="content">
+    <div class="ejercicio" id="ej1">
+      <h3>Ejercicio 1</h3>
+      <img src="img/ej1.png" alt="Enunciado Ejercicio 1" width="400">
+      <br>
+      <button class="btn">Mostrar Solución</button>
+      <div class="video">🔒 Video Premium - Inicia sesión para ver</div>
+      <button class="btn">Marcar como visto</button>
+    </div>
 
-  <script>
-    function toggleSolution() {
-      const sol = document.getElementById("solution");
-      sol.style.display = sol.style.display === "block" ? "none" : "block";
-    }
+    <div class="ejercicio" id="ej2">
+      <h3>Ejercicio 2</h3>
+      <img src="img/ej2.png" alt="Enunciado Ejercicio 2" width="400">
+      <br>
+      <button class="btn">Mostrar Solución</button>
+      <div class="video">🔒 Video Premium - Inicia sesión para ver</div>
+      <button class="btn">Marcar como visto</button>
+    </div>
 
-    function markAsSeen() {
-      localStorage.setItem("cientifico-ej1-visto", true);
-      document.getElementById("progress-status").innerText = "Progreso: ✅ Visto";
-    }
-
-    // Cargar estado al inicio
-    window.onload = () => {
-      if(localStorage.getItem("cientifico-ej1-visto")) {
-        document.getElementById("progress-status").innerText = "Progreso: ✅ Visto";
-      }
-    }
-  </script>
+    <!-- Repite hasta Ejercicio 100 -->
+  </div>
 </body>
 </html>
