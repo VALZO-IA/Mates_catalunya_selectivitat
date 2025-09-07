@@ -38,31 +38,21 @@
       overflow: hidden;
     }
 
-    .left {
-      background: url("img/portada_c.png") center/cover no-repeat;
-      background-color: #000;
+    .split img {
+      width: 90%;
+      height: 90%;
+      object-fit: contain; /* ✅ mantiene proporción */
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: transform 0.4s ease;
     }
 
-    .right {
-      background: url("img/portada_s.png") center/cover no-repeat;
-      background-color: #000;
-    }
-
-    .split::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(0,0,0,0.65));
-      z-index: 1;
-    }
-
-    .split:hover {
-      transform: scale(1.02);
-      z-index: 2;
+    .split:hover img {
+      transform: scale(1.03);
     }
 
     .overlay {
-      position: relative;
+      position: absolute;
       z-index: 2;
       color: #fff;
       font-size: 2rem;
@@ -70,6 +60,7 @@
       text-align: center;
       text-shadow: 0 3px 12px rgba(0,0,0,0.85);
       padding: 10px 20px;
+      pointer-events: none;
     }
 
     footer {
@@ -113,6 +104,11 @@
         height: calc(50% - 10px);
       }
 
+      .split img {
+        width: 95%;
+        height: auto;
+      }
+
       .overlay {
         font-size: 1.6rem;
       }
@@ -138,11 +134,13 @@
 </head>
 <body>
   <div class="container">
-    <div class="split left" onclick="window.location.href='cientifico.html'">
-      
+    <div class="split" onclick="window.location.href='cientifico.html'">
+      <img src="img/portada_c.png" alt="Matemáticas Científico">
+      <div class="overlay">Matemáticas Científico</div>
     </div>
-    <div class="split right" onclick="window.location.href='social.html'">
-      
+    <div class="split" onclick="window.location.href='social.html'">
+      <img src="img/portada_s.png" alt="Matemáticas Social">
+      <div class="overlay">Matemáticas Social</div>
     </div>
   </div>
 
