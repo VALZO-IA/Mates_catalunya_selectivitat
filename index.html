@@ -14,30 +14,31 @@
     body, html {
       height: 100%;
       font-family: "Segoe UI", Arial, sans-serif;
-      overflow: hidden;
       background: #f4f4f4;
     }
 
+    /* 📌 Layout escritorio */
+    .container {
+      display: flex;
+      height: calc(100% - 70px); /* hueco para el footer */
+    }
+
     .split {
-      position: fixed;
-      width: 50%;
-      height: calc(100% - 70px); /* deja hueco para el footer */
-      top: 0;
+      flex: 1;
       transition: transform 0.4s ease;
       cursor: pointer;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 40px;
+      position: relative;
+      overflow: hidden;
     }
 
     .left {
-      left: 0;
       background: url("img/portada_c.png") center/cover no-repeat;
     }
 
     .right {
-      right: 0;
       background: url("img/portada_s.png") center/cover no-repeat;
     }
 
@@ -45,9 +46,7 @@
       content: "";
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(0,0,0,0.55));
-      border-radius: 12px;
-      margin: 20px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(0,0,0,0.65));
       z-index: 1;
     }
 
@@ -60,10 +59,10 @@
       position: relative;
       z-index: 2;
       color: #fff;
-      font-size: 2.2rem;
-      font-weight: 600;
+      font-size: 2.4rem;
+      font-weight: 700;
       text-align: center;
-      text-shadow: 0 3px 12px rgba(0,0,0,0.8);
+      text-shadow: 0 3px 12px rgba(0,0,0,0.85);
       padding: 10px 20px;
     }
 
@@ -85,37 +84,32 @@
       letter-spacing: 0.4px;
       text-align: center;
       box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
-      flex-wrap: wrap; /* si no cabe, hace salto de línea */
+      flex-wrap: wrap;
     }
 
     footer span {
       background: linear-gradient(135deg, #00c6ff, #0072ff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      font-weight: 600;
+      font-weight: 700;
       margin: 0 5px;
     }
 
-    /* 📱 Adaptación a pantallas móviles */
+    /* 📱 Móviles */
     @media (max-width: 768px) {
-      body, html {
-        overflow: auto;
+      .container {
+        flex-direction: column;
+        height: auto;
       }
 
       .split {
-        position: relative;
         width: 100%;
         height: 50vh;
-        margin-bottom: 10px;
-      }
-
-      .split::before {
-        margin: 10px;
-        border-radius: 10px;
       }
 
       .overlay {
         font-size: 1.6rem;
+        padding: 8px 15px;
       }
 
       footer {
@@ -124,15 +118,28 @@
         padding: 15px;
       }
     }
+
+    /* 📱 Móviles pequeños */
+    @media (max-width: 480px) {
+      .overlay {
+        font-size: 1.3rem;
+      }
+
+      footer {
+        font-size: 0.85rem;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="split left" onclick="window.location.href='cientifico.html'">
-    <div class="overlay">Matemáticas Científico</div>
-  </div>
+  <div class="container">
+    <div class="split left" onclick="window.location.href='cientifico.html'">
+      <div class="overlay">Matemáticas Científico</div>
+    </div>
 
-  <div class="split right" onclick="window.location.href='social.html'">
-    <div class="overlay">Matemáticas Social</div>
+    <div class="split right" onclick="window.location.href='social.html'">
+      <div class="overlay">Matemáticas Social</div>
+    </div>
   </div>
 
   <footer>
@@ -140,4 +147,3 @@
   </footer>
 </body>
 </html>
-
