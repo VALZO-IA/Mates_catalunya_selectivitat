@@ -25,7 +25,7 @@
     }
     .sidebar h2 {
       text-align: center;
-      color: #0af; /* azul */
+      color: #0af;
       margin-bottom: 20px;
     }
     .sidebar ul {
@@ -75,6 +75,15 @@
     .btn:hover {
       background: #08c;
     }
+    .solucion {
+      margin-top: 15px;
+      display: none;
+    }
+    .solucion img {
+      max-width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
     .video {
       margin-top: 15px;
       padding: 10px;
@@ -115,16 +124,20 @@
         <h3>Ejercicio ${i}</h3>
         <img src="img/ej${i}.png" alt="Enunciado Ejercicio ${i}" width="400"><br>
         <button class="btn" onclick="mostrarSolucion(${i})">Mostrar Solución</button>
-        <div id="video-ej${i}" class="video">🔒 Video Premium - Inicia sesión para ver</div>
+        <div id="sol${i}" class="solucion">
+          <img src="img/sol${i}.png" alt="Solución Ejercicio ${i}">
+        </div>
+        <div class="video">🔒 Video Premium - Inicia sesión para ver</div>
         <button class="btn">Marcar como visto</button>
       `;
       contenido.appendChild(div);
     }
 
     function mostrarSolucion(num) {
-      const divVideo = document.getElementById("video-ej" + num);
-      divVideo.innerHTML = `<img src="img/sol${num}.png" alt="Solución Ejercicio ${num}" style="max-width:100%; border:1px solid #ddd; border-radius:5px;">`;
+      const solDiv = document.getElementById("sol" + num);
+      solDiv.style.display = "block";
     }
   </script>
 </body>
 </html>
+
