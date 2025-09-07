@@ -15,12 +15,13 @@
       height: 100%;
       font-family: "Segoe UI", Arial, sans-serif;
       background: #f4f4f4;
+      overflow: hidden; /* 🚫 evita scroll */
     }
 
-    /* 📌 Layout escritorio */
+    /* 📌 Contenedor principal */
     .container {
       display: flex;
-      height: calc(100% - 70px); /* hueco para el footer */
+      height: calc(100% - 70px); /* hueco para footer */
     }
 
     .split {
@@ -71,7 +72,7 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      min-height: 70px;
+      height: 70px;
       background: #0c0c0c;
       color: #ccc;
       display: flex;
@@ -95,16 +96,15 @@
       margin: 0 5px;
     }
 
-    /* 📱 Móviles */
+    /* 📱 Adaptación a móviles */
     @media (max-width: 768px) {
       .container {
         flex-direction: column;
-        height: auto;
       }
 
       .split {
         width: 100%;
-        height: 50vh;
+        height: 50%; /* 📌 ocupa mitad de la pantalla */
       }
 
       .overlay {
@@ -119,7 +119,7 @@
       }
     }
 
-    /* 📱 Móviles pequeños */
+    /* 📱 Móviles muy pequeños */
     @media (max-width: 480px) {
       .overlay {
         font-size: 1.3rem;
