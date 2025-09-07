@@ -110,26 +110,16 @@
       color: #555;
     }
 
-    /* Barra de progreso */
-    .progress-container {
-      width: 100%;
-      background: #e0e0e0;
-      border-radius: 20px;
-      margin: 20px 0;
-      height: 30px;
-      overflow: hidden;
-      box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-    }
-    .progress-bar {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #0af, #08c);
-      text-align: center;
-      color: white;
-      line-height: 30px;
-      font-size: 16px;
+    /* Panel progreso */
+    .progress-panel {
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      font-size: 18px;
       font-weight: bold;
-      transition: width 0.4s ease;
+      text-align: center;
     }
   </style>
 </head>
@@ -149,9 +139,9 @@
       <span id="userInfo" style="margin-left:10px; font-weight:bold;"></span>
     </div>
 
-    <!-- Barra de progreso -->
-    <div class="progress-container">
-      <div id="progressBar" class="progress-bar">0%</div>
+    <!-- Panel progreso -->
+    <div id="progressPanel" class="progress-panel">
+      📊 Progreso: 0% | ✅ Hechos: 0 / 100
     </div>
 
     <div id="contenido"></div>
@@ -195,7 +185,7 @@
 
     const indice = document.getElementById("indice");
     const contenido = document.getElementById("contenido");
-    const progressBar = document.getElementById("progressBar");
+    const progressPanel = document.getElementById("progressPanel");
 
     // Render ejercicios y menú
     const indiceItems = [];
@@ -241,7 +231,6 @@
         } else {
           await updateDoc(userDocRef, { ejerciciosHechos: arrayUnion(num) });
         }
-        // Esperamos un momento para que Firestore procese el arrayUnion
         setTimeout(actualizarProgreso, 200);
       } catch (error) {
         console.error("Error al guardar progreso:", error.message);
@@ -267,7 +256,7 @@
       await signOut(auth);
     }
 
-    // Mantener sesión activa y actualizar progreso
+    // Mantener sesión activa
     onAuthStateChanged(auth, async (user) => {
       const loginBtn = document.getElementById("loginBtn");
       const logoutBtn = document.getElementById("logoutBtn");
@@ -284,27 +273,22 @@
         loginBtn.style.display = "inline-block";
         logoutBtn.style.display = "none";
         userInfo.innerText = "";
-        progressBar.style.width = "0%";
-        progressBar.innerText = "0%";
-        // Limpiar ticks del índice
+        progressPanel.innerText = "📊 Progreso: 0% | ✅ Hechos: 0 / " + totalEjercicios;
         for (let i = 1; i <= totalEjercicios; i++) {
           indiceItems[i].innerText = "";
         }
       }
     });
 
-    // Actualizar barra de progreso y ticks del índice
+    // Actualizar progreso
     async function actualizarProgreso() {
       if (!userGlobal) return;
       const docSnap = await getDoc(doc(db, "progresos", userGlobal.uid));
       if (docSnap.exists()) {
         const data = docSnap.data();
         const hechos = data.ejerciciosHechos || [];
-        // Actualizar barra
         const porcentaje = Math.round((hechos.length / totalEjercicios) * 100);
-        progressBar.style.width = porcentaje + "%";
-        progressBar.innerText = porcentaje + "%";
-        // Actualizar ticks en índice
+        progressPanel.innerText = `📊 Progreso: ${porcentaje}% | ✅ Hechos: ${hechos.length} / ${totalEjercicios}`;
         for (let i = 1; i <= totalEjercicios; i++) {
           indiceItems[i].innerText = hechos.includes(i) ? "✅" : "";
         }
@@ -313,4 +297,3 @@
   </script>
 </body>
 </html>
-
