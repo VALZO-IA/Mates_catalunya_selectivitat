@@ -158,7 +158,6 @@
       arrayUnion 
     } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-    // 🔑 Configuración Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyC8XKDRQ6iRdpEJXcaCp8vqaALVk7Di_P8",
       authDomain: "mates-catalunya-selectividad.firebaseapp.com",
@@ -218,7 +217,6 @@
         await updateDoc(doc(db, "progresos", userGlobal.uid), {
           ejerciciosHechos: arrayUnion(num)
         });
-        console.log("Ejercicio guardado:", num);
         actualizarProgreso();
       } catch (error) {
         console.error("Error al guardar progreso:", error.message);
@@ -230,8 +228,6 @@
       try {
         const provider = new GoogleAuthProvider();
         const result = await signInWithPopup(auth, provider);
-        console.log("Login con Google:", result.user.uid);
-
         const userDoc = await getDoc(doc(db, "progresos", result.user.uid));
         if (!userDoc.exists()) {
           await setDoc(doc(db, "progresos", result.user.uid), { ejerciciosHechos: [] });
@@ -244,10 +240,9 @@
     // Logout
     window.logout = async function() {
       await signOut(auth);
-      console.log("Sesión cerrada");
     }
 
-    // Mantener sesión activa
+    // Mantener sesión activa y cargar progreso
     onAuthStateChanged(auth, async (user) => {
       const loginBtn = document.getElementById("loginBtn");
       const logoutBtn = document.getElementById("logoutBtn");
@@ -258,7 +253,6 @@
         loginBtn.style.display = "none";
         logoutBtn.style.display = "inline-block";
         userInfo.innerText = `Hola, ${user.displayName}`;
-
         await actualizarProgreso();
       } else {
         userGlobal = null;
@@ -273,7 +267,6 @@
     // Actualizar barra de progreso
     async function actualizarProgreso() {
       if (!userGlobal) return;
-
       const docSnap = await getDoc(doc(db, "progresos", userGlobal.uid));
       if (docSnap.exists()) {
         const data = docSnap.data();
