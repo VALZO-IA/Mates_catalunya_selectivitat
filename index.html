@@ -13,14 +13,14 @@
 
     body, html {
       height: 100%;
-      font-family: Arial, sans-serif;
+      font-family: "Segoe UI", Arial, sans-serif;
       overflow: hidden;
     }
 
     .split {
       position: fixed;
       width: 50%;
-      height: 100%;
+      height: calc(100% - 60px); /* deja hueco para el footer */
       top: 0;
       transition: transform 0.3s ease;
       cursor: pointer;
@@ -50,16 +50,37 @@
 
     .overlay {
       background: rgba(0, 0, 0, 0.4);
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      padding: 20px 40px;
+      border-radius: 10px;
       transition: background 0.3s ease;
     }
 
     .split:hover .overlay {
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.65);
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background: #111;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.5);
+    }
+
+    footer span {
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -71,5 +92,10 @@
   <div class="split right" onclick="window.location.href='social.html'">
     <div class="overlay">Matemáticas Social</div>
   </div>
+
+  <footer>
+    Desde <span>9,99 €/mes</span> disfruta de todas las explicaciones en vídeo de los ejercicios de la Selectividad
+  </footer>
 </body>
 </html>
+
