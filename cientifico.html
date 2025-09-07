@@ -161,9 +161,7 @@
       getFirestore, 
       doc, 
       setDoc, 
-      getDoc, 
-      updateDoc, 
-      arrayUnion 
+      getDoc 
     } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -182,13 +180,16 @@
 
     const totalEjercicios = 100;
     let userGlobal = null;
+    let hechos = [];
 
     const indice = document.getElementById("indice");
     const contenido = document.getElementById("contenido");
     const progressPanel = document.getElementById("progressPanel");
 
-    // Render ejercicios y menú
     const indiceItems = [];
+    const checkboxes = [];
+
+    // Render ejercicios y menú
     for (let i = 1; i <= totalEjercicios; i++) {
       const li = document.createElement("li");
       li.innerHTML = `<a href="#ej${i}">Ejercicio ${i}</a><span class="done" id="done${i}"></span>`;
@@ -206,35 +207,34 @@
           <img src="img/sol${i}.png" alt="Solución Ejercicio ${i}">
         </div>
         <div class="video">🔒 Video Premium - Inicia sesión para ver</div>
-        <button class="btn" onclick="marcarVisto(${i})">Marcar como visto</button>
+        <label><input type="checkbox" id="chk${i}"> Marcar como visto</label>
       `;
       contenido.appendChild(div);
+      checkboxes[i] = div.querySelector(`#chk${i}`);
+
+      // Escuchar cambios en cada checkbox
+      checkboxes[i].addEventListener("change", async () => {
+        if (!userGlobal) {
+          alert("Debes iniciar sesión con Google");
+          checkboxes[i].checked = false;
+          return;
+        }
+
+        if (checkboxes[i].checked) {
+          if (!hechos.includes(i)) hechos.push(i);
+        } else {
+          hechos = hechos.filter(e => e !== i);
+        }
+
+        await setDoc(doc(db, "progresos", userGlobal.uid), { ejerciciosHechos: hechos });
+        actualizarProgreso();
+      });
     }
 
     // Mostrar solución
     window.mostrarSolucion = function(num) {
       const solDiv = document.getElementById("sol" + num);
       solDiv.style.display = "block";
-    }
-
-    // Marcar ejercicio como visto
-    window.marcarVisto = async function(num) {
-      if (!userGlobal) {
-        alert("Debes iniciar sesión con Google");
-        return;
-      }
-      try {
-        const userDocRef = doc(db, "progresos", userGlobal.uid);
-        const docSnap = await getDoc(userDocRef);
-        if (!docSnap.exists()) {
-          await setDoc(userDocRef, { ejerciciosHechos: [num] });
-        } else {
-          await updateDoc(userDocRef, { ejerciciosHechos: arrayUnion(num) });
-        }
-        setTimeout(actualizarProgreso, 200);
-      } catch (error) {
-        console.error("Error al guardar progreso:", error.message);
-      }
     }
 
     // Login Google
@@ -274,8 +274,10 @@
         logoutBtn.style.display = "none";
         userInfo.innerText = "";
         progressPanel.innerText = "📊 Progreso: 0% | ✅ Hechos: 0 / " + totalEjercicios;
+        hechos = [];
         for (let i = 1; i <= totalEjercicios; i++) {
           indiceItems[i].innerText = "";
+          checkboxes[i].checked = false;
         }
       }
     });
@@ -286,11 +288,12 @@
       const docSnap = await getDoc(doc(db, "progresos", userGlobal.uid));
       if (docSnap.exists()) {
         const data = docSnap.data();
-        const hechos = data.ejerciciosHechos || [];
+        hechos = data.ejerciciosHechos || [];
         const porcentaje = Math.round((hechos.length / totalEjercicios) * 100);
         progressPanel.innerText = `📊 Progreso: ${porcentaje}% | ✅ Hechos: ${hechos.length} / ${totalEjercicios}`;
         for (let i = 1; i <= totalEjercicios; i++) {
           indiceItems[i].innerText = hechos.includes(i) ? "✅" : "";
+          checkboxes[i].checked = hechos.includes(i);
         }
       }
     }
