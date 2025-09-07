@@ -3,14 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Matemáticas Científico</title>
+  <title>Matemáticas Científico - Selectividad 2026</title>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f8f9fa;
       display: flex;
-      min-height: 100vh;
     }
 
     /* Sidebar */
@@ -18,151 +16,115 @@
       width: 220px;
       background: #111;
       color: white;
-      padding: 20px;
+      height: 100vh;
       position: fixed;
       top: 0;
-      bottom: 0;
+      left: 0;
       overflow-y: auto;
+      padding-top: 20px;
     }
-
     .sidebar h2 {
-      font-size: 18px;
-      margin-bottom: 15px;
-      color: #00aaff;
+      text-align: center;
+      color: #0af; /* azul */
+      margin-bottom: 20px;
     }
-
     .sidebar ul {
       list-style: none;
       padding: 0;
     }
-
     .sidebar ul li {
-      margin: 8px 0;
+      padding: 10px 20px;
     }
-
     .sidebar ul li a {
       color: white;
       text-decoration: none;
-      font-size: 14px;
+      display: block;
+      transition: 0.2s;
     }
-
     .sidebar ul li a:hover {
-      color: #00aaff;
+      background: #0af;
+      color: black;
+      border-radius: 5px;
     }
 
-    /* Main content */
+    /* Contenido */
     .content {
-      margin-left: 240px;
+      margin-left: 220px;
       padding: 20px;
       flex: 1;
+      overflow-y: auto;
+      height: 100vh;
     }
-
     .ejercicio {
-      background: white;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 50px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 20px;
     }
-
     .ejercicio h3 {
       margin-top: 0;
     }
-
-    .ejercicio img {
-      max-width: 100%;
-      margin: 15px 0;
-      border-radius: 5px;
-      border: 1px solid #ddd;
-    }
-
     .btn {
-      display: inline-block;
-      padding: 10px 15px;
-      margin: 10px 5px 0 0;
-      background: #00aaff;
+      background: #0af;
       color: white;
       border: none;
-      border-radius: 6px;
+      padding: 10px 15px;
+      border-radius: 5px;
       cursor: pointer;
-      font-size: 14px;
-    }
-
-    .btn:hover {
-      background: #0077cc;
-    }
-
-    .video {
       margin-top: 10px;
+    }
+    .btn:hover {
+      background: #08c;
+    }
+    .video {
+      margin-top: 15px;
       padding: 10px;
-      background: #f1f1f1;
-      border-radius: 6px;
-      font-size: 14px;
-      color: #666;
+      border: 2px dashed #0af;
+      border-radius: 5px;
+      text-align: center;
+      color: #555;
     }
   </style>
 </head>
 <body>
-
   <!-- Sidebar -->
   <div class="sidebar">
-    <h2>Ejercicios</h2>
-    <ul></ul>
+    <h2>Índice</h2>
+    <ul id="indice"></ul>
   </div>
 
   <!-- Contenido -->
-  <div class="content" id="ejercicios">
-    <!-- Aquí JS añadirá los ejercicios -->
-  </div>
+  <div class="content" id="contenido"></div>
 
+  <!-- Script -->
   <script>
-    const TOTAL_EJERCICIOS = 100;
-    const ejerciciosContainer = document.getElementById("ejercicios");
+    const totalEjercicios = 100;
+    const indice = document.getElementById("indice");
+    const contenido = document.getElementById("contenido");
 
-    for (let i = 1; i <= TOTAL_EJERCICIOS; i++) {
-      const ejercicio = document.createElement("div");
-      ejercicio.classList.add("ejercicio");
-      ejercicio.id = `ej${i}`;
-
-      ejercicio.innerHTML = `
-        <h3>Ejercicio ${i}</h3>
-        <img src="img/ej${i}.png" alt="Enunciado Ejercicio ${i}">
-        <br>
-        <button class="btn" onclick="mostrarSolucion(${i})">
-          Mostrar Solución
-        </button>
-        <div class="video" id="video-ej${i}">
-          🔒 Video Premium - Inicia sesión para ver
-        </div>
-        <button class="btn" onclick="markAsDone('ej${i}', this)">
-          Marcar como visto
-        </button>
-      `;
-
-      ejerciciosContainer.appendChild(ejercicio);
-    }
-
-    // Generar el índice dinámicamente
-    const sidebarList = document.querySelector(".sidebar ul");
-    sidebarList.innerHTML = "";
-    for (let i = 1; i <= TOTAL_EJERCICIOS; i++) {
+    for (let i = 1; i <= totalEjercicios; i++) {
+      // Sidebar links
       const li = document.createElement("li");
       li.innerHTML = `<a href="#ej${i}">Ejercicio ${i}</a>`;
-      sidebarList.appendChild(li);
+      indice.appendChild(li);
+
+      // Ejercicio block
+      const div = document.createElement("div");
+      div.className = "ejercicio";
+      div.id = "ej" + i;
+      div.innerHTML = `
+        <h3>Ejercicio ${i}</h3>
+        <img src="img/ej${i}.png" alt="Enunciado Ejercicio ${i}" width="400"><br>
+        <button class="btn" onclick="mostrarSolucion(${i})">Mostrar Solución</button>
+        <div id="video-ej${i}" class="video">🔒 Video Premium - Inicia sesión para ver</div>
+        <button class="btn">Marcar como visto</button>
+      `;
+      contenido.appendChild(div);
     }
 
-    // Funciones de ejemplo
     function mostrarSolucion(num) {
-      alert("Aquí irá la solución del ejercicio " + num);
-    }
-
-    function markAsDone(id, btn) {
-      btn.textContent = "✅ Visto";
-      btn.disabled = true;
-      btn.style.background = "#28a745";
-      // Aquí luego guardaremos en base de datos o localStorage
+      const divVideo = document.getElementById("video-ej" + num);
+      divVideo.innerHTML = `<img src="img/sol${num}.png" alt="Solución Ejercicio ${num}" style="max-width:100%; border:1px solid #ddd; border-radius:5px;">`;
     }
   </script>
-
 </body>
 </html>
