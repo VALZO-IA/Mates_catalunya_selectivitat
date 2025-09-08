@@ -102,7 +102,7 @@
       color: #555;
     }
 
-    /* Header */
+        /* Header */
     .header {
       position: fixed;
       top: 0;
@@ -110,22 +110,25 @@
       width: 100%;
       background: #0af;
       color: white;
-      padding: 10px;
+      padding: 10px 20px; /* más espacio a izquierda y derecha */
       font-weight: bold;
       z-index: 1000;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      box-sizing: border-box; /* evita que el padding corte el ancho */
     }
     .header button {
       background: white;
       color: #0af;
       border: none;
-      padding: 5px 10px;
+      padding: 8px 15px; /* un poco más grande y uniforme */
       border-radius: 5px;
       cursor: pointer;
       font-weight: bold;
+      white-space: nowrap; /* evita que el texto del botón se corte */
     }
+
 
     /* Footer */
     footer {
