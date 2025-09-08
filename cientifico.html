@@ -240,9 +240,9 @@
   <!-- Firebase -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
-    // Tu configuración Firebase
+    // Configuración Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyC8XKDRQ6iRdpEJXcaCp8vqaALVk7Di_P8",
       authDomain: "mates-catalunya-selectividad.firebaseapp.com",
@@ -301,16 +301,17 @@
     window.guardarCorreo = async function() {
       const correo = document.getElementById("correoInput").value;
       if (!correo) {
-        alert("Por favor introduce tu correo.");
+        alert("⚠️ Por favor introduce tu correo.");
         return;
       }
       try {
-        await addDoc(collection(db, "emails"), {
+        await addDoc(collection(db, "correos"), {
           email: correo,
           ejercicio: ejercicioSeleccionado,
-          fecha: new Date()
+          fecha: serverTimestamp()
         });
         alert("✅ Gracias, nos pondremos en contacto contigo.");
+        document.getElementById("correoInput").value = "";
         cerrarPopup();
       } catch (e) {
         console.error("Error al guardar:", e);
