@@ -307,7 +307,6 @@
       try {
         await addDoc(collection(db, "correos"), {
           email: correo,
-          ejercicio: ejercicioSeleccionado,
           fecha: serverTimestamp()
         });
         alert("✅ Gracias, nos pondremos en contacto contigo.");
