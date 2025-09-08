@@ -3,217 +3,260 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Matemáticas Científico - Selectividad 2026</title>
+  <title>Ejercicios Científico</title>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      background: #f5f5f5;
+      background: #f4f4f9;
+      color: #333;
     }
 
-    /* Sidebar */
-    .sidebar {
-      width: 220px;
-      background: #111;
-      color: white;
-      height: 100vh;
+    /* HEADER */
+    header {
       position: fixed;
       top: 0;
       left: 0;
-      overflow-y: auto;
-      padding-top: 60px;
-      transition: transform 0.3s ease;
-    }
-    .sidebar h2 {
-      text-align: center;
-      color: #0af;
-      margin-bottom: 20px;
-    }
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .sidebar ul li {
-      padding: 10px 15px;
-    }
-    .sidebar ul li a {
+      right: 0;
+      background: #1a1a1a;
       color: white;
-      text-decoration: none;
-      display: block;
-      transition: 0.2s;
-    }
-    .sidebar ul li a:hover {
-      background: #0af;
-      color: black;
-      border-radius: 5px;
-    }
-
-    /* Contenido */
-    .content {
-      margin-left: 220px;
-      padding: 20px;
-      flex: 1;
-    }
-    .ejercicio {
-      margin-bottom: 40px;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 20px;
-      text-align: center;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .ejercicio h3 {
-      margin-top: 0;
-    }
-    .btn {
-      background: #0af;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: background 0.3s;
-    }
-    .btn:hover {
-      background: #08c;
-    }
-    .solucion {
-      margin-top: 15px;
-      display: none;
-    }
-    .solucion img {
-      max-width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
-    .video {
-      margin-top: 15px;
-      padding: 10px;
-      border: 2px dashed #0af;
-      border-radius: 5px;
-      text-align: center;
-      color: #555;
-    }
-
-        /* Header */
-    .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: #0af;
-      color: white;
-      padding: 10px 20px; /* más espacio a izquierda y derecha */
-      font-weight: bold;
-      z-index: 1000;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      box-sizing: border-box; /* evita que el padding corte el ancho */
-    }
-    .header button {
-      background: white;
-      color: #0af;
-      border: none;
-      padding: 8px 15px; /* un poco más grande y uniforme */
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-      white-space: nowrap; /* evita que el texto del botón se corte */
+      align-items: center;
+      padding: 12px 20px;
+      z-index: 1000;
     }
 
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+    }
 
-    /* Footer */
-    footer {
-      background: #111;
+    nav {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    nav a, .premium-btn {
+      text-decoration: none;
       color: white;
-      text-align: center;
-      padding: 15px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      transition: 0.3s;
       font-size: 14px;
-      margin-top: auto;
     }
 
-    /* Responsive */
+    nav a:hover {
+      background: #333;
+    }
+
+    .premium-btn {
+      background: #ff9800;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .premium-btn:hover {
+      background: #e68900;
+    }
+
+    /* MAIN */
+    main {
+      padding: 100px 20px 40px 20px; /* 🔥 margen superior extra para evitar solapamiento */
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .ejercicio {
+      background: white;
+      padding: 20px;
+      margin-bottom: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    }
+
+    .ejercicio img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    .ejercicio button {
+      margin-top: 10px;
+      padding: 8px 14px;
+      border: none;
+      background: #4CAF50;
+      color: white;
+      font-size: 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .ejercicio button:hover {
+      background: #45a049;
+    }
+
+    /* MODAL */
+    #authModal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #authModalContent {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    #authModal input {
+      width: 90%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    #authModal button {
+      margin-top: 10px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      background: #1a1a1a;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    #authModal button:hover {
+      background: #333;
+    }
+
     @media (max-width: 768px) {
-      .sidebar {
-        transform: translateX(-100%);
-        position: fixed;
-        z-index: 999;
+      header h1 {
+        font-size: 18px;
       }
-      .sidebar.active {
-        transform: translateX(0);
-      }
-      .content {
-        margin-left: 0;
-        padding-top: 70px;
+      nav a, .premium-btn {
+        font-size: 13px;
+        padding: 6px 10px;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <div class="header">
-    <button onclick="window.location.href='index.html'">⬅ Volver</button>
-    <span>Matemáticas Científico</span>
-    <button onclick="toggleMenu()">☰ Menú</button>
+
+  <!-- HEADER -->
+  <header>
+    <h1>Científico</h1>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="social.html">Social</a>
+      <span class="premium-btn" onclick="openAuthModal()">Premium</span>
+    </nav>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+    <div class="ejercicio">
+      <h2>Ejercicio 1</h2>
+      <img src="img/ej1.png" alt="Ejercicio 1">
+      <button onclick="marcarVisto(this)">Marcar como visto</button>
+    </div>
+
+    <div class="ejercicio">
+      <h2>Ejercicio 2</h2>
+      <img src="img/ej2.png" alt="Ejercicio 2">
+      <button onclick="marcarVisto(this)">Marcar como visto</button>
+    </div>
+  </main>
+
+  <!-- MODAL AUTH -->
+  <div id="authModal">
+    <div id="authModalContent">
+      <h2>Acceso Premium</h2>
+      <input type="email" id="email" placeholder="Correo electrónico">
+      <input type="password" id="password" placeholder="Contraseña">
+      <button onclick="registrar()">Registrarse</button>
+      <button onclick="iniciarSesion()">Iniciar Sesión</button>
+      <button onclick="closeAuthModal()">Cerrar</button>
+      <p id="authMessage"></p>
+    </div>
   </div>
 
-  <!-- Sidebar -->
-  <div class="sidebar" id="sidebar">
-    <h2>Índice</h2>
-    <ul id="indice"></ul>
-  </div>
-
-  <!-- Contenido -->
-  <div class="content" id="contenido"></div>
-
-  <!-- Footer -->
-  <footer>
-    🔒 Suscríbete por solo 9,99 €/mes y desbloquea todos los vídeos premium.
-  </footer>
+  <!-- FIREBASE -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
 
   <script>
-    const totalEjercicios = 20; // cambia el número según lo que tengas
-    const indice = document.getElementById("indice");
-    const contenido = document.getElementById("contenido");
+    // 🔥 Tu configuración de Firebase
+    const firebaseConfig = {
+      apiKey: "TU_API_KEY",
+      authDomain: "TU_PROJECT_ID.firebaseapp.com",
+      projectId: "TU_PROJECT_ID",
+      storageBucket: "TU_PROJECT_ID.appspot.com",
+      messagingSenderId: "TU_SENDER_ID",
+      appId: "TU_APP_ID"
+    };
 
-    // Crear índice + ejercicios
-    for (let i = 1; i <= totalEjercicios; i++) {
-      const li = document.createElement("li");
-      li.innerHTML = `<a href="#ej${i}">Ejercicio ${i}</a>`;
-      indice.appendChild(li);
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
 
-      const div = document.createElement("div");
-      div.className = "ejercicio";
-      div.id = "ej" + i;
-      div.innerHTML = `
-        <h3>Ejercicio ${i}</h3>
-        <img src="img/ej${i}.png" alt="Enunciado Ejercicio ${i}" width="300"><br>
-        <button class="btn" onclick="mostrarSolucion(${i})">Mostrar Solución</button>
-        <div id="sol${i}" class="solucion">
-          <img src="img/sol${i}.png" alt="Solución Ejercicio ${i}">
-        </div>
-        <div class="video">🔒 Video Premium - Suscríbete para ver</div>
-      `;
-      contenido.appendChild(div);
+    // MODAL
+    function openAuthModal() {
+      document.getElementById("authModal").style.display = "flex";
+    }
+    function closeAuthModal() {
+      document.getElementById("authModal").style.display = "none";
     }
 
-    // Mostrar solución
-    function mostrarSolucion(num) {
-      const solDiv = document.getElementById("sol" + num);
-      solDiv.style.display = "block";
+    // AUTH
+    function registrar() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(() => {
+          document.getElementById("authMessage").innerText = "✅ Usuario registrado";
+        })
+        .catch(error => {
+          document.getElementById("authMessage").innerText = "Error: " + error.message;
+        });
     }
 
-    // Toggle menú móvil
-    function toggleMenu() {
-      document.getElementById("sidebar").classList.toggle("active");
+    function iniciarSesion() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          document.getElementById("authMessage").innerText = "✅ Sesión iniciada";
+        })
+        .catch(error => {
+          document.getElementById("authMessage").innerText = "Error: " + error.message;
+        });
+    }
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        console.log("Conectado como:", user.email);
+      }
+    });
+
+    // FUNCIONALIDAD MARCAR VISTO
+    function marcarVisto(btn) {
+      btn.innerText = "✔ Visto";
+      btn.style.background = "#999";
+      btn.disabled = true;
     }
   </script>
 </body>
