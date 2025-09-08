@@ -14,7 +14,7 @@
 
     /* Sidebar */
     .sidebar {
-      width: 240px;
+      width: 200px;
       background: #111;
       color: white;
       height: 100vh;
@@ -22,7 +22,8 @@
       top: 0;
       left: 0;
       overflow-y: auto;
-      padding-top: 20px;
+      padding-top: 60px;
+      transition: transform 0.3s ease;
     }
     .sidebar h2 {
       text-align: center;
@@ -35,16 +36,12 @@
       margin: 0;
     }
     .sidebar ul li {
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      padding: 10px 15px;
     }
     .sidebar ul li a {
       color: white;
       text-decoration: none;
       display: block;
-      width: 100%;
       transition: 0.2s;
     }
     .sidebar ul li a:hover {
@@ -52,22 +49,17 @@
       color: black;
       border-radius: 5px;
     }
-    .sidebar ul li .done {
-      color: #0f0;
-      font-weight: bold;
-      margin-left: 5px;
-    }
 
     /* Contenido */
     .content {
-      margin-left: 240px;
+      margin-left: 200px;
       padding: 20px;
       flex: 1;
       overflow-y: auto;
       min-height: 100vh;
     }
     .ejercicio {
-      margin-bottom: 50px;
+      margin-bottom: 40px;
       border-bottom: 1px solid #ccc;
       padding-bottom: 20px;
       text-align: center;
@@ -110,192 +102,118 @@
       color: #555;
     }
 
-    /* Panel progreso */
-    .progress-panel {
-      background: #fff;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-      font-size: 18px;
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #0af;
+      color: white;
+      padding: 10px;
       font-weight: bold;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header button {
+      background: white;
+      color: #0af;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* Footer */
+    footer {
+      background: #111;
+      color: white;
       text-align: center;
+      padding: 15px;
+      font-size: 14px;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        position: fixed;
+        z-index: 999;
+      }
+      .sidebar.active {
+        transform: translateX(0);
+      }
+      .content {
+        margin-left: 0;
+        padding-top: 70px;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Header -->
+  <div class="header">
+    <button onclick="window.location.href='index.html'">⬅ Volver</button>
+    <span>Matemáticas Científico</span>
+    <button onclick="toggleMenu()">☰ Menú</button>
+  </div>
+
   <!-- Sidebar -->
-  <div class="sidebar">
+  <div class="sidebar" id="sidebar">
     <h2>Índice</h2>
     <ul id="indice"></ul>
   </div>
 
   <!-- Contenido -->
-  <div class="content">
-    <!-- Login -->
-    <div style="margin-bottom:20px;">
-      <button id="loginBtn" class="btn" onclick="loginWithGoogle()">Iniciar sesión con Google</button>
-      <button id="logoutBtn" class="btn" onclick="logout()" style="display:none;">Cerrar sesión</button>
-      <span id="userInfo" style="margin-left:10px; font-weight:bold;"></span>
-    </div>
+  <div class="content" id="contenido"></div>
 
-    <!-- Panel progreso -->
-    <div id="progressPanel" class="progress-panel">
-      📊 Progreso: 0% | ✅ Hechos: 0 / 100
-    </div>
+  <!-- Footer -->
+  <footer>
+    🔒 Suscríbete por solo 9,99 €/mes y desbloquea todos los vídeos premium.
+  </footer>
 
-    <div id="contenido"></div>
-  </div>
-
-  <!-- Script Firebase -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-    import { 
-      getAuth, 
-      GoogleAuthProvider, 
-      signInWithPopup, 
-      signOut, 
-      onAuthStateChanged 
-    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-    import { 
-      getFirestore, 
-      doc, 
-      setDoc, 
-      getDoc 
-    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyC8XKDRQ6iRdpEJXcaCp8vqaALVk7Di_P8",
-      authDomain: "mates-catalunya-selectividad.firebaseapp.com",
-      projectId: "mates-catalunya-selectividad",
-      storageBucket: "mates-catalunya-selectividad.firebasestorage.app",
-      messagingSenderId: "902089237800",
-      appId: "1:902089237800:web:96e74744749ea7f2a21c1d",
-      measurementId: "G-XDJTHHEL8Y"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    const totalEjercicios = 100;
-    let userGlobal = null;
-    let hechos = [];
-
+  <script>
+    const totalEjercicios = 20; // cambia el número según lo que tengas
     const indice = document.getElementById("indice");
     const contenido = document.getElementById("contenido");
-    const progressPanel = document.getElementById("progressPanel");
 
-    const indiceItems = [];
-    const checkboxes = [];
-
-    // Render ejercicios y menú
+    // Crear índice + ejercicios
     for (let i = 1; i <= totalEjercicios; i++) {
       const li = document.createElement("li");
-      li.innerHTML = `<a href="#ej${i}">Ejercicio ${i}</a><span class="done" id="done${i}"></span>`;
+      li.innerHTML = `<a href="#ej${i}">Ejercicio ${i}</a>`;
       indice.appendChild(li);
-      indiceItems[i] = document.getElementById(`done${i}`);
 
       const div = document.createElement("div");
       div.className = "ejercicio";
       div.id = "ej" + i;
       div.innerHTML = `
         <h3>Ejercicio ${i}</h3>
-        <img src="img/ej${i}.png" alt="Enunciado Ejercicio ${i}" width="400"><br>
+        <img src="img/ej${i}.png" alt="Enunciado Ejercicio ${i}" width="300"><br>
         <button class="btn" onclick="mostrarSolucion(${i})">Mostrar Solución</button>
         <div id="sol${i}" class="solucion">
           <img src="img/sol${i}.png" alt="Solución Ejercicio ${i}">
         </div>
-        <div class="video">🔒 Video Premium - Inicia sesión para ver</div>
-        <label><input type="checkbox" id="chk${i}"> Marcar como visto</label>
+        <div class="video">🔒 Video Premium - Suscríbete para ver</div>
       `;
       contenido.appendChild(div);
-      checkboxes[i] = div.querySelector(`#chk${i}`);
-
-      // Escuchar cambios en cada checkbox
-      checkboxes[i].addEventListener("change", async () => {
-        if (!userGlobal) {
-          alert("Debes iniciar sesión con Google");
-          checkboxes[i].checked = false;
-          return;
-        }
-
-        if (checkboxes[i].checked) {
-          if (!hechos.includes(i)) hechos.push(i);
-        } else {
-          hechos = hechos.filter(e => e !== i);
-        }
-
-        await setDoc(doc(db, "progresos", userGlobal.uid), { ejerciciosHechos: hechos });
-        actualizarProgreso();
-      });
     }
 
     // Mostrar solución
-    window.mostrarSolucion = function(num) {
+    function mostrarSolucion(num) {
       const solDiv = document.getElementById("sol" + num);
       solDiv.style.display = "block";
     }
 
-    // Login Google
-    window.loginWithGoogle = async function() {
-      try {
-        const provider = new GoogleAuthProvider();
-        const result = await signInWithPopup(auth, provider);
-        const userDoc = await getDoc(doc(db, "progresos", result.user.uid));
-        if (!userDoc.exists()) {
-          await setDoc(doc(db, "progresos", result.user.uid), { ejerciciosHechos: [] });
-        }
-      } catch (error) {
-        console.error("Error Google login:", error.message);
-      }
-    }
-
-    // Logout
-    window.logout = async function() {
-      await signOut(auth);
-    }
-
-    // Mantener sesión activa
-    onAuthStateChanged(auth, async (user) => {
-      const loginBtn = document.getElementById("loginBtn");
-      const logoutBtn = document.getElementById("logoutBtn");
-      const userInfo = document.getElementById("userInfo");
-
-      if (user) {
-        userGlobal = user;
-        loginBtn.style.display = "none";
-        logoutBtn.style.display = "inline-block";
-        userInfo.innerText = `Hola, ${user.displayName}`;
-        await actualizarProgreso();
-      } else {
-        userGlobal = null;
-        loginBtn.style.display = "inline-block";
-        logoutBtn.style.display = "none";
-        userInfo.innerText = "";
-        progressPanel.innerText = "📊 Progreso: 0% | ✅ Hechos: 0 / " + totalEjercicios;
-        hechos = [];
-        for (let i = 1; i <= totalEjercicios; i++) {
-          indiceItems[i].innerText = "";
-          checkboxes[i].checked = false;
-        }
-      }
-    });
-
-    // Actualizar progreso
-    async function actualizarProgreso() {
-      if (!userGlobal) return;
-      const docSnap = await getDoc(doc(db, "progresos", userGlobal.uid));
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        hechos = data.ejerciciosHechos || [];
-        const porcentaje = Math.round((hechos.length / totalEjercicios) * 100);
-        progressPanel.innerText = `📊 Progreso: ${porcentaje}% | ✅ Hechos: ${hechos.length} / ${totalEjercicios}`;
-        for (let i = 1; i <= totalEjercicios; i++) {
-          indiceItems[i].innerText = hechos.includes(i) ? "✅" : "";
-          checkboxes[i].checked = hechos.includes(i);
-        }
-      }
+    // Toggle menú móvil
+    function toggleMenu() {
+      document.getElementById("sidebar").classList.toggle("active");
     }
   </script>
 </body>
