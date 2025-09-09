@@ -229,8 +229,9 @@
   <div id="popup">
     <div class="box">
       <h3>Accede al Video Premium</h3>
-      <p>Déjanos tu correo y te enviaremos la información de pago.</p>
+      <p>Déjanos tu correo y número de teléfono y nos pondremos en contacto cuanto antes.</p>
       <input type="email" id="correoInput" placeholder="Tu correo" required>
+      <input type="tel" id="telefonoInput" placeholder="Tu teléfono" required>
       <br>
       <button class="enviar" onclick="guardarCorreo()">Enviar</button>
       <button class="cerrar" onclick="cerrarPopup()">Cancelar</button>
@@ -241,7 +242,6 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
     import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
-
 
     // Configuración Firebase
     const firebaseConfig = {
@@ -299,25 +299,28 @@
       document.getElementById("popup").style.display = "none";
     }
 
-    // Guardar correo en Firestore
+    // Guardar correo y teléfono en Firestore
     window.guardarCorreo = async function() {
       const correo = document.getElementById("correoInput").value;
-      if (!correo) {
-        alert("⚠️ Por favor introduce tu correo.");
+      const telefono = document.getElementById("telefonoInput").value;
+      if (!correo || !telefono) {
+        alert("⚠️ Por favor introduce tu correo y teléfono.");
         return;
       }
       try {
         await addDoc(collection(db, "correos"), {
           email: correo,
+          telefono: telefono,
           ejercicio: ejercicioSeleccionado,
           fecha: serverTimestamp()
         });
         alert("✅ Gracias, nos pondremos en contacto contigo.");
         document.getElementById("correoInput").value = "";
+        document.getElementById("telefonoInput").value = "";
         cerrarPopup();
       } catch (e) {
         console.error("Error al guardar:", e);
-        alert("❌ Error al guardar el correo.");
+        alert("❌ Error al guardar los datos.");
       }
     }
 
@@ -328,3 +331,4 @@
   </script>
 </body>
 </html>
+
