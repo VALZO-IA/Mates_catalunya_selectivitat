@@ -14,7 +14,7 @@
 
     /* Sidebar */
     .sidebar {
-      width: 200px;
+      width: 230px;
       background: #111;
       color: white;
       height: 100vh;
@@ -30,35 +30,56 @@
       color: #0af;
       margin-bottom: 20px;
     }
+    .sidebar details {
+      margin: 5px 10px;
+    }
+    .sidebar summary {
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 5px;
+      background: #222;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .sidebar summary:hover {
+      background: #0af;
+      color: black;
+    }
     .sidebar ul {
       list-style: none;
-      padding: 0;
-      margin: 0;
+      padding-left: 15px;
+      margin: 5px 0;
     }
     .sidebar ul li {
-      padding: 10px 15px;
+      padding: 5px 0;
     }
     .sidebar ul li a {
       color: white;
       text-decoration: none;
-      display: block;
+      font-size: 14px;
       transition: 0.2s;
     }
     .sidebar ul li a:hover {
-      background: #0af;
-      color: black;
-      border-radius: 5px;
+      color: #0af;
     }
 
     /* Contenido */
     .content {
-      margin-left: 200px;
+      margin-left: 230px;
       padding: 20px;
       flex: 1;
       overflow-y: auto;
       min-height: 100vh;
       padding-top: 70px; /* evita solape con header */
       box-sizing: border-box;
+    }
+    .tema {
+      margin-bottom: 60px;
+    }
+    .tema h2 {
+      text-align: center;
+      color: #0af;
+      margin-bottom: 30px;
     }
     .ejercicio {
       margin-bottom: 40px;
@@ -214,7 +235,7 @@
   <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <h2>Índice</h2>
-    <ul id="indice"></ul>
+    <div id="indice"></div>
   </div>
 
   <!-- Contenido -->
@@ -258,30 +279,61 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const totalEjercicios = 20;
+    // Datos de temas
+    const temas = [
+      { nombre: "Matrius i sistemes d'equacions lineals", ejercicios: 15 },
+      { nombre: "Geometria de l'espai", ejercicios: 15 },
+      { nombre: "Funcions I - Aplicacions Derivades", ejercicios: 15 },
+      { nombre: "Funcions II - Problemes Optimització", ejercicios: 15 },
+      { nombre: "Funcions III - Integrals", ejercicios: 15 },
+      { nombre: "Probabilitat", ejercicios: 15 }
+    ];
+
     const indice = document.getElementById("indice");
     const contenido = document.getElementById("contenido");
 
-    // Crear índice + ejercicios
-    for (let i = 1; i <= totalEjercicios; i++) {
-      const li = document.createElement("li");
-      li.innerHTML = `<a href="#ej${i}">Ejercicio ${i}</a>`;
-      indice.appendChild(li);
+    let ejercicioId = 1;
 
-      const div = document.createElement("div");
-      div.className = "ejercicio";
-      div.id = "ej" + i;
-      div.innerHTML = `
-        <h3>Ejercicio ${i}</h3>
-        <img src="img/ej${i}.png" alt="Enunciado Ejercicio ${i}" width="300"><br>
-        <button class="btn" onclick="mostrarSolucion(${i})">Mostrar Solución</button>
-        <div id="sol${i}" class="solucion">
-          <img src="img/sol${i}.png" alt="Solución Ejercicio ${i}">
-        </div>
-        <div class="video" onclick="abrirPopup(${i})">🔒 Video Premium - Haz clic para acceder</div>
-      `;
-      contenido.appendChild(div);
-    }
+    // Crear índice y ejercicios
+    temas.forEach((tema, tIndex) => {
+      // Sidebar
+      const details = document.createElement("details");
+      const summary = document.createElement("summary");
+      summary.textContent = tema.nombre;
+      details.appendChild(summary);
+
+      const ul = document.createElement("ul");
+      for (let i = 1; i <= tema.ejercicios; i++) {
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="#ej${ejercicioId}">Ejercicio ${i}</a>`;
+        ul.appendChild(li);
+        ejercicioId++;
+      }
+      details.appendChild(ul);
+      indice.appendChild(details);
+
+      // Contenido
+      const temaDiv = document.createElement("div");
+      temaDiv.className = "tema";
+      temaDiv.innerHTML = `<h2>${tema.nombre}</h2>`;
+      contenido.appendChild(temaDiv);
+
+      for (let i = 1; i <= tema.ejercicios; i++) {
+        const div = document.createElement("div");
+        div.className = "ejercicio";
+        div.id = "ej" + (ejercicioId - tema.ejercicios + i - 1);
+        div.innerHTML = `
+          <h3>Ejercicio ${i}</h3>
+          <img src="img/ej${ejercicioId - tema.ejercicios + i - 1}.png" alt="Enunciado Ejercicio ${i}" width="300"><br>
+          <button class="btn" onclick="mostrarSolucion(${ejercicioId - tema.ejercicios + i - 1})">Mostrar Solución</button>
+          <div id="sol${ejercicioId - tema.ejercicios + i - 1}" class="solucion">
+            <img src="img/sol${ejercicioId - tema.ejercicios + i - 1}.png" alt="Solución Ejercicio ${i}">
+          </div>
+          <div class="video" onclick="abrirPopup(${ejercicioId - tema.ejercicios + i - 1})">🔒 Video Premium - Haz clic para acceder</div>
+        `;
+        temaDiv.appendChild(div);
+      }
+    });
 
     // Mostrar solución
     window.mostrarSolucion = function(num) {
@@ -315,14 +367,13 @@
         return;
       }
       
-      // Validar teléfono (solo dígitos y + opcional)
+      // Validar teléfono
       const phoneRegex = /^\+?[0-9]{7,15}$/;
       if (!phoneRegex.test(telefono)) {
         alert("⚠️ Introduce un teléfono válido (solo números).");
         return;
       }
 
-    
       try {
         await addDoc(collection(db, "correos"), {
           email: correo,
@@ -347,3 +398,4 @@
   </script>
 </body>
 </html>
+
