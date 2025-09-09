@@ -94,6 +94,21 @@
     .ejercicio h3 {
       margin-top: 0;
     }
+    .ejercicio img {
+      display: block;
+      margin: 0 auto;
+      max-width: 90%;   /* Que se adapte casi al ancho disponible */
+      height: auto;
+      border-radius: 6px;
+    }
+    
+    /* Ajuste especial solo para pantallas grandes */
+    @media (min-width: 1024px) {
+      .ejercicio img {
+        max-width: 70%;  /* En escritorio ocupa más espacio */
+      }
+    }
+
     .btn {
       background: #0af;
       color: white;
@@ -115,6 +130,11 @@
       max-width: 100%;
       border: 1px solid #ddd;
       border-radius: 5px;
+      display: block;
+      margin: 0 auto;
+      max-width: 90%;   /* Que se adapte casi al ancho disponible */
+      height: auto;
+      border-radius: 6px;
     }
     .video {
       margin-top: 15px;
