@@ -5,45 +5,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Matemáticas Científico - Selectividad 2026</title>
   <style>
+    /* Reset y body */
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       display: flex;
-      background: #f5f5f5;
+      background: #0a0a0a; /* Fondo oscuro elegante */
+      color: #eee;
     }
-
+    
     /* Sidebar */
     .sidebar {
       width: 230px;
-      background: #111;
-      color: white;
+      background: linear-gradient(180deg, #0b0b0b, #111111);
+      color: #fff;
       height: 100vh;
       position: fixed;
       top: 0;
       left: 0;
       overflow-y: auto;
       padding-top: 60px;
+      box-shadow: 3px 0 10px rgba(0,0,0,0.5);
       transition: transform 0.3s ease;
     }
     .sidebar h2 {
       text-align: center;
-      color: #0af;
+      color: #00ff7f;
       margin-bottom: 20px;
+      font-family: 'Verdana', sans-serif;
+      text-shadow: 1px 1px 3px black;
     }
     .sidebar details {
       margin: 5px 10px;
     }
     .sidebar summary {
       cursor: pointer;
-      padding: 8px;
-      border-radius: 5px;
-      background: #222;
+      padding: 10px;
+      border-radius: 8px;
+      background: #111;
       font-weight: bold;
       transition: 0.3s;
+      box-shadow: inset 0 0 5px #00ff7f33;
     }
     .sidebar summary:hover {
-      background: #0af;
-      color: black;
+      background: #00ff7f;
+      color: #000;
     }
     .sidebar ul {
       list-style: none;
@@ -54,15 +60,16 @@
       padding: 5px 0;
     }
     .sidebar ul li a {
-      color: white;
+      color: #eee;
       text-decoration: none;
       font-size: 14px;
       transition: 0.2s;
     }
     .sidebar ul li a:hover {
-      color: #0af;
+      color: #00ff7f;
+      text-shadow: 0 0 5px #00ff7f;
     }
-
+    
     /* Contenido */
     .content {
       margin-left: 230px;
@@ -70,7 +77,7 @@
       flex: 1;
       overflow-y: auto;
       min-height: 100vh;
-      padding-top: 70px; /* evita solape con header */
+      padding-top: 70px; 
       box-sizing: border-box;
     }
     .tema {
@@ -78,99 +85,123 @@
     }
     .tema h2 {
       text-align: center;
-      color: #0af;
+      color: #00ff7f;
       margin-bottom: 30px;
+      text-shadow: 0 0 10px #00ff7f88;
     }
     .ejercicio {
       margin-bottom: 40px;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 20px;
-      text-align: center;
-      background: white;
+      border-bottom: 1px solid #333;
       padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
+      background: linear-gradient(145deg, #111, #1a1a1a);
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,255,127,0.15);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .ejercicio:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0,255,127,0.25);
     }
     .ejercicio h3 {
       margin-top: 0;
+      color: #00ff7f;
     }
     .ejercicio img {
       display: block;
       margin: 0 auto;
-      max-width: 90%;   /* Que se adapte casi al ancho disponible */
+      max-width: 90%;
       height: auto;
-      border-radius: 6px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-  
-
+    
+    /* Botones */
     .btn {
-      background: #0af;
+      background: linear-gradient(90deg, #00ff7f, #0af);
       color: white;
       border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
+      padding: 10px 20px;
+      border-radius: 8px;
       cursor: pointer;
       margin-top: 10px;
-      transition: background 0.3s;
+      transition: 0.3s;
+      font-weight: bold;
     }
     .btn:hover {
-      background: #08c;
+      background: linear-gradient(90deg, #0af, #00ff7f);
+      transform: scale(1.05);
     }
     .solucion {
       margin-top: 15px;
       display: none;
     }
     .solucion img {
-      max-width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 5px;
       display: block;
       margin: 0 auto;
-      max-width: 90%;   /* Que se adapte casi al ancho disponible */
+      max-width: 90%;
       height: auto;
-      border-radius: 6px;
+      border-radius: 8px;
+      border: 1px solid #00ff7f33;
+      box-shadow: 0 6px 15px rgba(0,255,127,0.2);
     }
+    
+    /* Video premium */
     .video {
       margin-top: 15px;
-      padding: 10px;
-      border: 2px dashed #0af;
-      border-radius: 5px;
+      padding: 12px;
+      border: 2px dashed #00ff7f;
+      border-radius: 10px;
       text-align: center;
-      color: #555;
+      color: #00ff7faa;
+      font-weight: bold;
       cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 12px rgba(0,255,127,0.1);
     }
-
+    .video:hover {
+      color: #00ff7f;
+      border-color: #0af;
+      background: rgba(0,255,127,0.05);
+      box-shadow: 0 6px 20px rgba(0,255,127,0.2);
+    }
+    
     /* Header */
     .header {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      background: #0af;
+      background: linear-gradient(90deg, #00ff7f, #0af);
       color: white;
-      padding: 10px 20px;
+      padding: 12px 25px;
       font-weight: bold;
       z-index: 1000;
       display: flex;
       align-items: center;
       justify-content: space-between;
       box-sizing: border-box;
+      box-shadow: 0 4px 15px rgba(0,255,127,0.3);
     }
     .header button {
-      background: white;
-      color: #0af;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 5px;
+      background: #0a0a0a;
+      color: #00ff7f;
+      border: 1px solid #00ff7f;
+      padding: 8px 18px;
+      border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
-      white-space: nowrap;
+      transition: 0.3s;
     }
-
+    .header button:hover {
+      background: #00ff7f;
+      color: #000;
+    }
+    
     /* Footer */
     footer {
       background: #111;
-      color: white;
+      color: #00ff7f;
       text-align: center;
       padding: 15px;
       font-size: 14px;
@@ -178,49 +209,55 @@
       bottom: 0;
       left: 0;
       width: 100%;
+      text-shadow: 0 0 5px #00ff7f44;
     }
-
+    
     /* Popup */
     #popup {
       display: none;
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.8);
       z-index: 2000;
       justify-content: center;
       align-items: center;
     }
     #popup .box {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      width: 300px;
+      background: #1a1a1a;
+      padding: 25px;
+      border-radius: 15px;
+      width: 320px;
       text-align: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 25px rgba(0,255,127,0.3);
+      color: #eee;
     }
     #popup input {
       width: 90%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      padding: 12px;
+      margin: 12px 0;
+      border: 1px solid #00ff7f33;
+      border-radius: 8px;
+      background: #111;
+      color: #eee;
     }
     #popup button {
-      padding: 10px 15px;
+      padding: 10px 18px;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       margin: 5px;
       cursor: pointer;
+      font-weight: bold;
     }
     #popup .enviar {
-      background: #0af;
-      color: white;
+      background: #00ff7f;
+      color: #000;
     }
     #popup .cerrar {
-      background: #ccc;
+      background: #555;
+      color: #eee;
     }
-
+    
     /* Responsive */
     @media (max-width: 768px) {
       .sidebar {
@@ -236,6 +273,7 @@
         padding-top: 70px;
       }
     }
+
   </style>
 </head>
 <body>
