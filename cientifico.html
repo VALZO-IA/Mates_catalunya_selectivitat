@@ -301,26 +301,27 @@
 
     // Guardar correo y teléfono en Firestore
     // Guardar correo y teléfono en Firestore + Google Sheets
-window.guardarCorreo = async function() {
-  const correo = document.getElementById("correoInput").value;
-  const telefono = document.getElementById("telefonoInput").value;
-
-  if (!correo || !telefono) {
-    alert("⚠️ Por favor introduce tu correo y teléfono.");
-    return;
-  }
-
-  try {
-    // 1. Guardar en Firebase
-    await addDoc(collection(db, "correos"), {
-      email: correo,
-      telefono: telefono,
-      ejercicio: ejercicioSeleccionado,
-      fecha: serverTimestamp()
-    });
-
-    // 2. Guardar también en Google Sheets
-    await fetch("https://script.google.com/macros/s/AKfycbzGkcSIZ98I-jMbZNXYIBqepIu7E-6s2zMto_Z5aQ_7d1V0a_sKDRlMutQyBmh9q1bHPA/exec", {
+    // Guardar correo y teléfono en Firestore + Google Sheets
+    window.guardarCorreo = async function() {
+      const correo = document.getElementById("correoInput").value;
+      const telefono = document.getElementById("telefonoInput").value;
+    
+      if (!correo || !telefono) {
+        alert("⚠️ Por favor introduce tu correo y teléfono.");
+        return;
+      }
+    
+      try {
+        // 1. Guardar en Firebase
+        await addDoc(collection(db, "correos"), {
+          email: correo,
+          telefono: telefono,
+          ejercicio: ejercicioSeleccionado,
+          fecha: serverTimestamp()
+        });
+    
+        // 2. Guardar también en Google Sheets
+        await fetch("https://script.google.com/macros/s/AKfycbzGkcSIZ98I-jMbZNXYIBqepIu7E-6s2zMto_Z5aQ_7d1V0a_sKDRlMutQyBmh9q1bHPA/exec", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -339,6 +340,7 @@ window.guardarCorreo = async function() {
         alert("❌ Error al guardar los datos.");
       }
     }
+
 
 
     
