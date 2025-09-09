@@ -230,6 +230,14 @@
 
     /* Responsive */
     @media (max-width: 768px) {
+      .header {
+        left: 0;
+        width: 100%;
+        padding: 12px 15px;
+        font-size: 16px;
+        justify-content: center;  /* centrado en móviles */
+        text-align: center;
+      }
       .sidebar {
         transform: translateX(-100%);
         position: fixed;
@@ -241,10 +249,6 @@
       .content {
         margin-left: 0;
         padding-top: 70px;
-      }
-      .header {
-        left: 0;
-        width: 100%;
       }
       footer {
         left: 0;
