@@ -323,8 +323,10 @@
         alert("❌ Error al guardar los datos.");
       }
     }
-    await fetch("https://script.google.com/macros/s/AKfycbwjHgkj2spn1vsiVfgiRKNbaUkI7IAnHWO7LqSBCyFhAgma8L_M-cSOQx9SVZyVq2VWWA/exec", {
+
+    await fetch("https://script.google.com/macros/s/AKfycbzGkcSIZ98I-jMbZNXYIBqepIu7E-6s2zMto_Z5aQ_7d1V0a_sKDRlMutQyBmh9q1bHPA/exec", {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: correo,
         telefono: telefono,
