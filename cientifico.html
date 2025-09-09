@@ -239,20 +239,21 @@
 
   <!-- Firebase -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
     // Configuración Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyC8XKDRQ6iRdpEJXcaCp8vqaALVk7Di_P8",
       authDomain: "mates-catalunya-selectividad.firebaseapp.com",
       projectId: "mates-catalunya-selectividad",
-      storageBucket: "mates-catalunya-selectividad.appspot.com",
+      storageBucket: "mates-catalunya-selectividad.firebasestorage.app",
       messagingSenderId: "902089237800",
       appId: "1:902089237800:web:96e74744749ea7f2a21c1d",
       measurementId: "G-XDJTHHEL8Y"
     };
 
+    // Inicializar Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
@@ -307,6 +308,7 @@
       try {
         await addDoc(collection(db, "correos"), {
           email: correo,
+          ejercicio: ejercicioSeleccionado,
           fecha: serverTimestamp()
         });
         alert("✅ Gracias, nos pondremos en contacto contigo.");
