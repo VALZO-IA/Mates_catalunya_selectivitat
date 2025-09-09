@@ -308,6 +308,20 @@
         alert("⚠️ Por favor introduce tu correo y teléfono.");
         return;
       }
+      // Validar email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(correo)) {
+        alert("⚠️ Introduce un correo válido.");
+        return;
+      }
+      
+      // Validar teléfono (solo dígitos y + opcional)
+      const phoneRegex = /^\+?[0-9]{7,15}$/;
+      if (!phoneRegex.test(telefono)) {
+        alert("⚠️ Introduce un teléfono válido (solo números).");
+        return;
+      }
+
     
       try {
         await addDoc(collection(db, "correos"), {
