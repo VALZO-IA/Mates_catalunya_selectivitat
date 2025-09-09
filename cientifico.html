@@ -299,8 +299,6 @@
       document.getElementById("popup").style.display = "none";
     }
 
-    // Guardar correo y teléfono en Firestore
-    // Guardar correo y teléfono en Firestore + Google Sheets
     // Guardar correo y teléfono en Firestore + Google Sheets
     window.guardarCorreo = async function() {
       const correo = document.getElementById("correoInput").value;
@@ -319,9 +317,10 @@
           ejercicio: ejercicioSeleccionado,
           fecha: serverTimestamp()
         });
-    
+        console.log("📥 Guardado en Firebase:", correo, telefono);
+
         // 2. Guardar también en Google Sheets
-        await fetch("https://script.google.com/macros/s/AKfycbzGkcSIZ98I-jMbZNXYIBqepIu7E-6s2zMto_Z5aQ_7d1V0a_sKDRlMutQyBmh9q1bHPA/exec", {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbye_G_NfKueqxF1d6oEd8lL8asLTHljP0NMRh7Ho3GnJnvrs6jdYpJwp-UfOyKSTWcsHA/exec", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -330,8 +329,16 @@
             ejercicio: ejercicioSeleccionado
           })
         });
-    
-        alert("✅ Gracias, nos pondremos en contacto contigo.");
+
+        const result = await response.json();
+        console.log("📤 Respuesta GAS:", result);
+
+        if (result.status === "success") {
+          alert("✅ Gracias, nos pondremos en contacto contigo.");
+        } else {
+          alert("⚠️ Se guardó en Firebase, pero falló Google Sheets.");
+        }
+
         document.getElementById("correoInput").value = "";
         document.getElementById("telefonoInput").value = "";
         cerrarPopup();
@@ -340,11 +347,6 @@
         alert("❌ Error al guardar los datos.");
       }
     }
-
-
-
-    
-
 
     // Toggle menú móvil
     window.toggleMenu = function() {
