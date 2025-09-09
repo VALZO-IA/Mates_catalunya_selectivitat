@@ -323,6 +323,15 @@
         alert("❌ Error al guardar los datos.");
       }
     }
+    await fetch("https://script.google.com/macros/s/AKfycbwjHgkj2spn1vsiVfgiRKNbaUkI7IAnHWO7LqSBCyFhAgma8L_M-cSOQx9SVZyVq2VWWA/exec", {
+      method: "POST",
+      body: JSON.stringify({
+        email: correo,
+        telefono: telefono,
+        ejercicio: ejercicioSeleccionado
+      })
+    });
+
 
     // Toggle menú móvil
     window.toggleMenu = function() {
