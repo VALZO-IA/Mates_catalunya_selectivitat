@@ -1,570 +1,473 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matemáticas Científico - Selectividad 2026</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matemáticas Científico - Selectividad 2026</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+    
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      background: #f8f9fa;
+      color: #333;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background: #ffffff;
+      border-right: 1px solid #e0e0e0;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      overflow-y: auto;
+      padding: 70px 15px 20px;
+      transition: transform 0.3s ease;
+    }
+    .sidebar h2 {
+      text-align: center;
+      color: #2f9e73;
+      margin-bottom: 25px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .sidebar summary {
+      cursor: pointer;
+      padding: 10px 12px;
+      border-radius: 6px;
+      background: #f6f6f6;
+      font-weight: 500;
+      margin-bottom: 5px;
+      transition: background 0.25s, transform 0.2s;
+    }
+    .sidebar summary:hover {
+      background: #e9f5ef;
+      transform: translateX(3px);
+    }
+    .sidebar ul {
+      list-style: none;
+      padding-left: 18px;
+      margin: 6px 0 12px;
+    }
+    .sidebar ul li a {
+      color: #555;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+    .sidebar ul li a:hover {
+      color: #2f9e73;
+    }
+    
+    /* Contenido */
+    .content {
+      margin-left: 240px;
+      padding: 25px;
+      flex: 1;
+      min-height: calc(100vh - 100px);
+      padding-top: 80px;
+      box-sizing: border-box;
+    }
+    .tema h2 {
+      text-align: center;
+      color: #2f9e73;
+      margin: 40px 0 25px;
+      font-size: 22px;
+      font-weight: 600;
+    }
 
-        /* ===== 1. Variables Globales ===== */
-        :root {
-            --verde: #2f9e73;
-            --verde-oscuro: #26845e;
-            --gris-fondo: #f8f9fa;
-            --gris-borde: #e0e0e0;
-            --gris-texto: #333;
-            --gris-secundario: #555;
-            --radius: 12px;
-            --radius-small: 8px;
-            --sombra-sm: 0 2px 8px rgba(0,0,0,0.05);
-            --sombra-md: 0 5px 15px rgba(0,0,0,0.1);
-            --sombra-lg: 0 10px 30px rgba(0,0,0,0.15);
-            --transicion: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
+    /* Ejercicio en filas */
+    .ejercicio {
+      margin-bottom: 40px;
+      padding: 25px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 20px;
+    }
+    .ejercicio:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    }
 
-        /* ===== 2. Base y Estructura ===== */
-        html {
-            scroll-behavior: smooth;
-        }
-        body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            display: flex;
-            background: var(--gris-fondo);
-            color: var(--gris-texto);
-            line-height: 1.7; /* Mejor interlineado para la lectura */
-            font-size: 16px;
-        }
-        .main-content-wrapper {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            margin-left: 240px;
-            width: calc(100% - 240px);
-            transition: margin-left 0.4s ease-in-out, width 0.4s ease-in-out;
-        }
-        .content {
-            padding: 30px;
-            padding-top: 100px;
-            box-sizing: border-box;
-            flex-grow: 1;
-        }
+    .ejercicio-contenido {
+      flex: 1;
+      text-align: center;
+    }
+    .ejercicio-contenido h3 {
+      margin-top: 0;
+      font-size: 18px;
+      font-weight: 500;
+    }
+    .ejercicio-contenido img {
+      display: block;
+      margin: 12px auto;
+      max-width: 95%;
+      height: auto;
+      border-radius: 6px;
+    }
 
-        /* ===== 3. Sidebar ===== */
-        .sidebar {
-            width: 240px;
-            background: #fff;
-            border-right: 1px solid var(--gris-borde);
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            overflow-y: auto;
-            padding: 24px 18px;
-            transition: transform 0.4s ease-in-out;
-            box-sizing: border-box;
-        }
-        .sidebar h2 {
-            text-align: center;
-            color: var(--verde);
-            margin-bottom: 30px;
-            font-size: 20px;
-            font-weight: 700;
-        }
-        .sidebar summary {
-            cursor: pointer;
-            padding: 12px 16px;
-            border-radius: var(--radius-small);
-            background: #f6f6f6;
-            font-weight: 600;
-            margin-bottom: 8px;
-            transition: var(--transicion);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .sidebar summary:hover {
-            background: #e9f5ef;
-            transform: translateX(6px);
-        }
-        .sidebar summary::after {
-            content: '▶';
-            font-size: 10px;
-            transform: rotate(0deg);
-            transition: transform 0.25s ease;
-            color: var(--gris-secundario);
-        }
-        details[open] > summary::after {
-            transform: rotate(90deg);
-        }
-        .sidebar ul {
-            list-style: none;
-            padding-left: 12px;
-            margin: 8px 0 16px;
-        }
-        .sidebar ul li a {
-            display: block;
-            padding: 8px 16px;
-            color: var(--gris-secundario);
-            text-decoration: none;
-            font-size: 15px;
-            transition: var(--transicion);
-            border-radius: var(--radius-small);
-        }
-        .sidebar ul li a:hover, .sidebar ul li a.active {
-            background: var(--verde);
-            color: white;
-            transform: translateX(4px);
-            text-decoration: none;
-        }
-
-        /* ===== 4. Header ===== */
-        .header {
-            position: sticky; /* Fijo en la parte superior al hacer scroll */
-            top: 0;
-            background: #fff;
-            color: var(--gris-texto);
-            padding: 16px 24px;
-            font-weight: 500;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: var(--sombra-sm);
-            border-bottom: 1px solid var(--gris-borde);
-        }
-        .header span {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--verde);
-        }
-        .header button {
-            background: var(--verde);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: var(--radius-small);
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: 600;
-            transition: var(--transicion);
-            box-shadow: var(--sombra-sm);
-        }
-        .header button:hover {
-            background: var(--verde-oscuro);
-            transform: translateY(-2px);
-            box-shadow: var(--sombra-md);
-        }
-
-        /* ===== 5. Secciones y Ejercicios ===== */
-        .tema h2 {
-            text-align: center;
-            color: var(--verde);
-            margin: 20px 0 30px;
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-        .ejercicio {
-            margin-bottom: 40px;
-            padding: 30px;
-            background: #fff;
-            border-radius: var(--radius);
-            box-shadow: var(--sombra-md);
-            transition: var(--transicion);
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            gap: 30px;
-            border: 1px solid var(--gris-borde);
-        }
-        .ejercicio:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--sombra-lg);
-        }
-        .ejercicio-contenido {
-            flex: 1;
-            text-align: center;
-        }
-        .ejercicio-contenido h3 {
-            margin: 0 0 15px;
-            font-size: 20px;
-            font-weight: 600;
-        }
-        .ejercicio-contenido img {
-            display: block;
-            margin: 15px auto;
-            max-width: 95%;
-            height: auto;
-            border-radius: var(--radius-small);
-            border: 1px solid var(--gris-borde);
-            box-shadow: var(--sombra-sm);
-        }
-
-        /* Botones */
-        .btn {
-            background: var(--verde);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: var(--radius);
-            cursor: pointer;
-            margin-top: 15px;
-            font-size: 16px;
-            font-weight: 600;
-            transition: var(--transicion);
-            box-shadow: var(--sombra-md);
-        }
-        .btn:hover {
-            background: var(--verde-oscuro);
-            transform: translateY(-2px);
-            box-shadow: var(--sombra-lg);
-        }
-        
-        /* Solución */
-        .solucion {
-            flex: 1;
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-            border-top: 1px dashed var(--gris-borde);
-            padding-top: 20px;
-        }
-        .solucion img {
-            max-width: 100%;
-            border-radius: var(--radius-small);
-            border: 1px solid var(--gris-borde);
-            box-shadow: var(--sombra-sm);
-        }
-
-        /* Video premium */
-        .video {
-            margin-top: 20px;
-            padding: 15px;
-            border: 2px dashed var(--verde);
-            border-radius: var(--radius);
-            text-align: center;
-            color: #444;
-            font-size: 14px;
-            cursor: pointer;
-            transition: var(--transicion);
-            font-weight: 500;
-        }
-        .video:hover {
-            background: #f2fdf7;
-            transform: scale(1.02);
-        }
-
-        /* ===== 6. Footer ===== */
-        footer {
-            background: #fff;
-            color: #666;
-            text-align: center;
-            padding: 18px;
-            font-size: 14px;
-            border-top: 1px solid var(--gris-borde);
-            margin-top: auto; /* Para que se mantenga al final del contenido */
-        }
-
-        /* ===== 7. Popup ===== */
-        #popup {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.55);
-            backdrop-filter: blur(6px);
-            z-index: 2000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            visibility: hidden;
-            opacity: 0;
-            transition: visibility 0.3s ease, opacity 0.3s ease;
-        }
-        #popup.active {
-            visibility: visible;
-            opacity: 1;
-        }
-        #popup .box {
-            background: #fff;
-            padding: 30px;
-            border-radius: var(--radius);
-            width: 360px;
-            max-width: 90%;
-            text-align: center;
-            box-shadow: var(--sombra-lg);
-            transform: translateY(20px) scale(0.95);
-            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        #popup.active .box {
-            transform: translateY(0) scale(1);
-        }
-        #popup h3 {
-            margin-top: 0;
-            color: var(--verde);
-            font-size: 24px;
-            font-weight: 600;
-        }
-        #popup p {
-            color: var(--gris-secundario);
-            font-size: 15px;
-        }
-        #popup input {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 12px;
-            margin: 15px 0;
-            border: 1px solid #ccc;
-            border-radius: var(--radius-small);
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-        #popup input:focus {
-            outline: none;
-            border-color: var(--verde);
-            box-shadow: 0 0 0 3px rgba(47, 158, 115, 0.2);
-        }
-        .popup-buttons {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        #popup button {
-            flex-grow: 1;
-            padding: 12px 20px;
-            border: none;
-            border-radius: var(--radius);
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: var(--transicion);
-        }
-        #popup .enviar {
-            background: var(--verde);
-            color: white;
-            box-shadow: var(--sombra-md);
-        }
-        #popup .enviar:hover {
-            background: var(--verde-oscuro);
-            transform: translateY(-2px);
-        }
-        #popup .cerrar {
-            background: #e0e0e0;
-            color: #333;
-            box-shadow: var(--sombra-md);
-        }
-        #popup .cerrar:hover {
-            background: #bdbdbd;
-            transform: translateY(-2px);
-        }
-
-        /* ===== 8. Responsive ===== */
-        @media (max-width: 768px) {
-            .main-content-wrapper {
-                margin-left: 0;
-                width: 100%;
-            }
-            .header {
-                position: fixed;
-                width: 100%;
-                left: 0;
-                top: 0;
-                box-shadow: var(--sombra-md);
-            }
-            .sidebar {
-                transform: translateX(-100%);
-                z-index: 9999;
-                box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-            }
-            .sidebar.active {
-                transform: translateX(0);
-            }
-            .content {
-                padding: 20px;
-                padding-top: 80px;
-            }
-            footer {
-                left: 0;
-                width: 100%;
-                position: relative; /* Relativo en móvil para que no flote sobre el contenido */
-            }
-            .ejercicio {
-                flex-direction: column;
-                gap: 20px;
-            }
-            .solucion {
-                margin-top: 20px;
-                padding-top: 20px;
-                border-top: 1px dashed var(--gris-borde);
-            }
-        }
-    </style>
+    /* Botones */
+    .btn {
+      background: #2f9e73;
+      color: white;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 0.25s;
+    }
+    .btn:hover {
+      background: #26845e;
+    }
+    
+    /* Solución */
+    .solucion {
+      flex: 1;
+      display: none;
+      text-align: center;
+    }
+    .solucion img {
+      max-width: 100%;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+    }
+    
+    /* Video premium */
+    .video {
+      margin-top: 15px;
+      padding: 12px;
+      border: 1px dashed #2f9e73;
+      border-radius: 6px;
+      text-align: center;
+      color: #444;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.25s;
+    }
+    .video:hover {
+      background: #f2fdf7;
+    }
+    
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 240px;
+      width: calc(100% - 240px);
+      background: #2f9e73;
+      color: white;
+      padding: 12px 20px;
+      font-weight: 500;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .header span {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .header button {
+      background: white;
+      color: #2f9e73;
+      border: 1px solid #2f9e73;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.25s;
+    }
+    .header button:hover {
+      background: #2f9e73;
+      color: white;
+    }
+    
+    /* Footer */
+    footer {
+      background: #fff;
+      color: #666;
+      text-align: center;
+      padding: 14px;
+      font-size: 13px;
+      border-top: 1px solid #ddd;
+      position: fixed;
+      bottom: 0;
+      left: 240px;
+      width: calc(100% - 240px);
+      box-shadow: 0 -1px 4px rgba(0,0,0,0.05);
+    }
+    
+    /* Popup */
+    #popup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease;
+    }
+    #popup .box {
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      width: 320px;
+      text-align: center;
+      border: 1px solid #ddd;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      animation: slideUp 0.3s ease;
+    }
+    #popup h3 {
+      margin-top: 0;
+      color: #2f9e73;
+    }
+    #popup input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    #popup button {
+      padding: 9px 16px;
+      border: none;
+      border-radius: 6px;
+      margin: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    #popup .enviar {
+      background: #2f9e73;
+      color: white;
+    }
+    #popup .cerrar {
+      background: #ccc;
+      color: #333;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0 }
+      to { opacity: 1 }
+    }
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0 }
+      to { transform: translateY(0); opacity: 1 }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header {
+        left: 0;
+        width: 100%;
+        padding: 10px 14px;
+        font-size: 14px;
+        height: 48px;
+      }
+      .sidebar {
+        transform: translateX(-100%);
+        position: fixed;
+        z-index: 999;
+        box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+      }
+      .sidebar.active {
+        transform: translateX(0);
+      }
+      .content {
+        margin-left: 0;
+        padding-top: 65px;
+      }
+      footer {
+        left: 0;
+        width: 100%;
+      }
+      .ejercicio {
+        flex-direction: column; /* en móvil apila enunciado y solución */
+      }
+      .solucion {
+        margin-top: 15px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <button onclick="window.location.href='index.html'">⬅ Volver</button>
-        <span>Matemáticas Científico</span>
-        <button onclick="toggleMenu()">☰ Menú</button>
+  <!-- Header -->
+  <div class="header">
+    <button onclick="window.location.href='index.html'">⬅ Volver</button>
+    <span>Matemáticas Científico</span>
+    <button onclick="toggleMenu()">☰ Menú</button>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <h2>Índice</h2>
+    <div id="indice"></div>
+  </div>
+
+  <!-- Contenido -->
+  <div class="content" id="contenido"></div>
+
+  <!-- Footer -->
+  <footer>
+    🔒 Contáctanos para las explicaciones en vídeo.
+  </footer>
+
+  <!-- Popup -->
+  <div id="popup">
+    <div class="box">
+      <h3>Accede al Video Premium</h3>
+      <p>Déjanos tu correo, número de teléfono y nos pondremos en contacto contigo.</p>
+      <input type="email" id="correoInput" placeholder="Tu correo" required>
+      <input type="tel" id="telefonoInput" placeholder="Tu teléfono" required>
+      <br>
+      <button class="enviar" onclick="guardarCorreo()">Enviar</button>
+      <button class="cerrar" onclick="cerrarPopup()">Cancelar</button>
     </div>
+  </div>
 
-    <div class="sidebar" id="sidebar">
-        <h2>Índice</h2>
-        <div id="indice"></div>
-    </div>
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
-    <div class="main-content-wrapper">
-        <div class="content" id="contenido"></div>
-        <footer>
-            🔒 Contáctanos para las explicaciones en vídeo.
-        </footer>
-    </div>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC8XKDRQ6iRdpEJXcaCp8vqaALVk7Di_P8",
+      authDomain: "mates-catalunya-selectividad.firebaseapp.com",
+      projectId: "mates-catalunya-selectividad",
+      storageBucket: "mates-catalunya-selectividad.firebasestorage.app",
+      messagingSenderId: "902089237800",
+      appId: "1:902089237800:web:96e74744749ea7f2a21c1d",
+      measurementId: "G-XDJTHHEL8Y"
+    };
 
-    <div id="popup">
-        <div class="box">
-            <h3>Accede al Video Premium</h3>
-            <p>Déjanos tu correo, número de teléfono y nos pondremos en contacto contigo.</p>
-            <input type="email" id="correoInput" placeholder="Tu correo" required>
-            <input type="tel" id="telefonoInput" placeholder="Tu teléfono" required>
-            <div class="popup-buttons">
-                <button class="enviar" onclick="guardarCorreo()">Enviar</button>
-                <button class="cerrar" onclick="cerrarPopup()">Cancelar</button>
-            </div>
-        </div>
-    </div>
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+    const temas = [
+      { nombre: "Matrius i sistemes d'equacions lineals", ejercicios: 15 },
+      { nombre: "Geometria de l'espai", ejercicios: 15 },
+      { nombre: "Funcions I - Aplicacions Derivades", ejercicios: 15 },
+      { nombre: "Funcions II - Problemes Optimització", ejercicios: 15 },
+      { nombre: "Funcions III - Integrals", ejercicios: 15 },
+      { nombre: "Probabilitat", ejercicios: 15 }
+    ];
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyC8XKDRQ6iRdpEJXcaCp8vqaALVk7Di_P8",
-            authDomain: "mates-catalunya-selectividad.firebaseapp.com",
-            projectId: "mates-catalunya-selectividad",
-            storageBucket: "mates-catalunya-selectividad.firebasestorage.app",
-            messagingSenderId: "902089237800",
-            appId: "1:902089237800:web:96e74744749ea7f2a21c1d",
-            measurementId: "G-XDJTHHEL8Y"
-        };
+    const indice = document.getElementById("indice");
+    const contenido = document.getElementById("contenido");
+    let ejercicioId = 1;
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+    temas.forEach((tema, tIndex) => {
+      const details = document.createElement("details");
+      const summary = document.createElement("summary");
+      summary.textContent = tema.nombre;
+      details.appendChild(summary);
 
-        const temas = [
-            { nombre: "Matrius i sistemes d'equacions lineals", ejercicios: 15 },
-            { nombre: "Geometria de l'espai", ejercicios: 15 },
-            { nombre: "Funcions I - Aplicacions Derivades", ejercicios: 15 },
-            { nombre: "Funcions II - Problemes Optimització", ejercicios: 15 },
-            { nombre: "Funcions III - Integrals", ejercicios: 15 },
-            { nombre: "Probabilitat", ejercicios: 15 }
-        ];
+      const ul = document.createElement("ul");
+      for (let i = 1; i <= tema.ejercicios; i++) {
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="#ej${ejercicioId}">Ejercicio ${i}</a>`;
+        ul.appendChild(li);
+        ejercicioId++;
+      }
+      details.appendChild(ul);
+      indice.appendChild(details);
 
-        const indice = document.getElementById("indice");
-        const contenido = document.getElementById("contenido");
-        let ejercicioId = 1;
+      const temaDiv = document.createElement("div");
+      temaDiv.className = "tema";
+      temaDiv.innerHTML = `<h2>${tema.nombre}</h2>`;
+      contenido.appendChild(temaDiv);
 
-        temas.forEach((tema, tIndex) => {
-            const details = document.createElement("details");
-            const summary = document.createElement("summary");
-            summary.textContent = tema.nombre;
-            details.appendChild(summary);
+      for (let i = 1; i <= tema.ejercicios; i++) {
+        const idEj = ejercicioId - tema.ejercicios + i - 1;
+        const div = document.createElement("div");
+        div.className = "ejercicio";
+        div.id = "ej" + idEj;
+        div.innerHTML = `
+          <div class="ejercicio-contenido">
+            <h3>Ejercicio ${i}</h3>
+            <img src="img/ej${idEj}.png" alt="Enunciado Ejercicio ${i}" width="300"><br>
+            <button class="btn" onclick="mostrarSolucion(${idEj})">Mostrar Solución</button>
+            <div class="video" onclick="abrirPopup(${idEj})">🔒 Video Premium - Haz clic para acceder</div>
+          </div>
+          <div id="sol${idEj}" class="solucion">
+            <img src="img/sol${idEj}.png" alt="Solución Ejercicio ${i}">
+          </div>
+        `;
+        temaDiv.appendChild(div);
+      }
+    });
 
-            const ul = document.createElement("ul");
-            for (let i = 1; i <= tema.ejercicios; i++) {
-                const li = document.createElement("li");
-                li.innerHTML = `<a href="#ej${ejercicioId}">Ejercicio ${i}</a>`;
-                ul.appendChild(li);
-                ejercicioId++;
-            }
-            details.appendChild(ul);
-            indice.appendChild(details);
+    window.mostrarSolucion = function(num) {
+      const solDiv = document.getElementById("sol" + num);
+      solDiv.style.display = "block";
+    }
 
-            const temaDiv = document.createElement("div");
-            temaDiv.className = "tema";
-            temaDiv.innerHTML = `<h2>${tema.nombre}</h2>`;
-            contenido.appendChild(temaDiv);
+    let ejercicioSeleccionado = null;
+    window.abrirPopup = function(num) {
+      ejercicioSeleccionado = num;
+      document.getElementById("popup").style.display = "flex";
+    }
+    window.cerrarPopup = function() {
+      document.getElementById("popup").style.display = "none";
+    }
 
-            for (let i = 1; i <= tema.ejercicios; i++) {
-                const idEj = ejercicioId - tema.ejercicios + i - 1;
-                const div = document.createElement("div");
-                div.className = "ejercicio";
-                div.id = "ej" + idEj;
-                div.innerHTML = `
-                    <div class="ejercicio-contenido">
-                        <h3>Ejercicio ${i}</h3>
-                        <img src="img/ej${idEj}.png" alt="Enunciado Ejercicio ${i}" width="300"><br>
-                        <button class="btn" onclick="mostrarSolucion(${idEj})">Mostrar Solución</button>
-                        <div class="video" onclick="abrirPopup(${idEj})">🔒 Video Premium - Haz clic para acceder</div>
-                    </div>
-                    <div id="sol${idEj}" class="solucion">
-                        <img src="img/sol${idEj}.png" alt="Solución Ejercicio ${i}">
-                    </div>
-                `;
-                temaDiv.appendChild(div);
-            }
+    window.guardarCorreo = async function() {
+      const correo = document.getElementById("correoInput").value;
+      const telefono = document.getElementById("telefonoInput").value;
+    
+      if (!correo || !telefono) {
+        alert("⚠️ Por favor introduce tu correo y teléfono.");
+        return;
+      }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(correo)) {
+        alert("⚠️ Introduce un correo válido.");
+        return;
+      }
+      const phoneRegex = /^\+?[0-9]{7,15}$/;
+      if (!phoneRegex.test(telefono)) {
+        alert("⚠️ Introduce un teléfono válido (solo números).");
+        return;
+      }
+
+      try {
+        await addDoc(collection(db, "correos"), {
+          email: correo,
+          telefono: telefono,
+          ejercicio: ejercicioSeleccionado,
+          fecha: serverTimestamp()
         });
+        alert("✅ Gracias, nos pondremos en contacto contigo.");
+        document.getElementById("correoInput").value = "";
+        document.getElementById("telefonoInput").value = "";
+        cerrarPopup();
+      } catch (e) {
+        console.error("Error al guardar:", e);
+        alert("❌ Error al guardar los datos.");
+      }
+    }
 
-        window.mostrarSolucion = function(num) {
-            const solDiv = document.getElementById("sol" + num);
-            // Toggle para mostrar/ocultar
-            if (solDiv.style.display === "block") {
-                solDiv.style.display = "none";
-            } else {
-                solDiv.style.display = "block";
-            }
-        }
-
-        let ejercicioSeleccionado = null;
-        const popup = document.getElementById("popup");
-        window.abrirPopup = function(num) {
-            ejercicioSeleccionado = num;
-            popup.classList.add("active");
-        }
-        window.cerrarPopup = function() {
-            popup.classList.remove("active");
-        }
-
-        window.guardarCorreo = async function() {
-            const correo = document.getElementById("correoInput").value;
-            const telefono = document.getElementById("telefonoInput").value;
-
-            if (!correo || !telefono) {
-                alert("⚠️ Por favor introduce tu correo y teléfono.");
-                return;
-            }
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(correo)) {
-                alert("⚠️ Introduce un correo válido.");
-                return;
-            }
-            const phoneRegex = /^\+?[0-9]{7,15}$/;
-            if (!phoneRegex.test(telefono)) {
-                alert("⚠️ Introduce un teléfono válido (solo números).");
-                return;
-            }
-
-            try {
-                await addDoc(collection(db, "correos"), {
-                    email: correo,
-                    telefono: telefono,
-                    ejercicio: ejercicioSeleccionado,
-                    fecha: serverTimestamp()
-                });
-                alert("✅ Gracias, nos pondremos en contacto contigo.");
-                document.getElementById("correoInput").value = "";
-                document.getElementById("telefonoInput").value = "";
-                cerrarPopup();
-            } catch (e) {
-                console.error("Error al guardar:", e);
-                alert("❌ Error al guardar los datos.");
-            }
-        }
-
-        window.toggleMenu = function() {
-            document.getElementById("sidebar").classList.toggle("active");
-        }
-    </script>
+    window.toggleMenu = function() {
+      document.getElementById("sidebar").classList.toggle("active");
+    }
+  </script>
 </body>
 </html>
+
