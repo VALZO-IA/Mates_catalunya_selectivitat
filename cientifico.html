@@ -984,7 +984,7 @@
       const ul = document.createElement("ul");
       for (let i = 1; i <= tema.ejercicios; i++) {
         const li = document.createElement("li");
-        li.innerHTML = `<a href="#ej${ejercicioId}" onclick="scrollToExercise('ej${ejercicioId}')">Ejercicio ${i}</a>`;
+        li.innerHTML = `<a href="javascript:void(0)" onclick="scrollToExercise('ej${ejercicioId}')">Ejercicio ${i}</a>`;
         ul.appendChild(li);
         ejercicioId++;
       }
