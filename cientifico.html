@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Matemáticas Científico - Selectividad 2026</title>
   <style>
-    /* Importar fuente moderna */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
     
     body {
@@ -81,32 +79,42 @@
       font-size: 22px;
       font-weight: 600;
     }
+
+    /* Ejercicio en filas */
     .ejercicio {
       margin-bottom: 40px;
       padding: 25px;
-      text-align: center;
       background: #fff;
       border-radius: 10px;
       box-shadow: 0 3px 8px rgba(0,0,0,0.06);
       transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 20px;
     }
     .ejercicio:hover {
       transform: translateY(-3px);
       box-shadow: 0 6px 16px rgba(0,0,0,0.08);
     }
-    .ejercicio h3 {
+
+    .ejercicio-contenido {
+      flex: 1;
+      text-align: center;
+    }
+    .ejercicio-contenido h3 {
       margin-top: 0;
       font-size: 18px;
       font-weight: 500;
     }
-    .ejercicio img {
+    .ejercicio-contenido img {
       display: block;
       margin: 12px auto;
       max-width: 95%;
       height: auto;
       border-radius: 6px;
     }
-    
+
     /* Botones */
     .btn {
       background: #2f9e73;
@@ -126,13 +134,12 @@
     
     /* Solución */
     .solucion {
-      margin-top: 15px;
+      flex: 1;
       display: none;
+      text-align: center;
     }
     .solucion img {
-      display: block;
-      margin: 0 auto;
-      max-width: 90%;
+      max-width: 100%;
       border-radius: 6px;
       border: 1px solid #ddd;
     }
@@ -291,9 +298,13 @@
         left: 0;
         width: 100%;
       }
+      .ejercicio {
+        flex-direction: column; /* en móvil apila enunciado y solución */
+      }
+      .solucion {
+        margin-top: 15px;
+      }
     }
-
-    
   </style>
 </head>
 <body>
@@ -384,17 +395,20 @@
       contenido.appendChild(temaDiv);
 
       for (let i = 1; i <= tema.ejercicios; i++) {
+        const idEj = ejercicioId - tema.ejercicios + i - 1;
         const div = document.createElement("div");
         div.className = "ejercicio";
-        div.id = "ej" + (ejercicioId - tema.ejercicios + i - 1);
+        div.id = "ej" + idEj;
         div.innerHTML = `
-          <h3>Ejercicio ${i}</h3>
-          <img src="img/ej${ejercicioId - tema.ejercicios + i - 1}.png" alt="Enunciado Ejercicio ${i}" width="300"><br>
-          <button class="btn" onclick="mostrarSolucion(${ejercicioId - tema.ejercicios + i - 1})">Mostrar Solución</button>
-          <div id="sol${ejercicioId - tema.ejercicios + i - 1}" class="solucion">
-            <img src="img/sol${ejercicioId - tema.ejercicios + i - 1}.png" alt="Solución Ejercicio ${i}">
+          <div class="ejercicio-contenido">
+            <h3>Ejercicio ${i}</h3>
+            <img src="img/ej${idEj}.png" alt="Enunciado Ejercicio ${i}" width="300"><br>
+            <button class="btn" onclick="mostrarSolucion(${idEj})">Mostrar Solución</button>
+            <div class="video" onclick="abrirPopup(${idEj})">🔒 Video Premium - Haz clic para acceder</div>
           </div>
-          <div class="video" onclick="abrirPopup(${ejercicioId - tema.ejercicios + i - 1})">🔒 Video Premium - Haz clic para acceder</div>
+          <div id="sol${idEj}" class="solucion">
+            <img src="img/sol${idEj}.png" alt="Solución Ejercicio ${i}">
+          </div>
         `;
         temaDiv.appendChild(div);
       }
