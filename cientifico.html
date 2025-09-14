@@ -1009,9 +1009,7 @@
         const div = document.createElement("div");
         div.className = "ejercicio";
         div.id = "ej" + idEj;
-      
-        // contenido común
-        let inner = `
+        div.innerHTML = `
           <div class="ejercicio-contenido">
             <div class="ejercicio-header">
               <div class="ejercicio-numero">${i}</div>
@@ -1025,31 +1023,9 @@
                 <span>👁️</span> Mostrar Solución
               </button>
             </div>
-        `;
-      
-        if (idEj === 1) {
-          // primer ejercicio → vídeo de YouTube incrustado
-          inner += `
-            <div class="video-youtube" style="margin-top:20px; border-radius:12px; overflow:hidden;">
-              <iframe width="100%" height="315"
-                src="https://www.youtube.com/embed/TU_CODIGO_VIDEO"
-                title="Explicación Ejercicio 1"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen>
-              </iframe>
-            </div>
-          `;
-        } else {
-          // los demás → botón premium
-          inner += `
             <button class="btn btn-premium" onclick="abrirPopup(${idEj})">
               🎥 Explicación en Vídeo Premium
             </button>
-          `;
-        }
-      
-        inner += `
           </div>
           <div id="sol${idEj}" class="solucion">
             <div class="solucion-card">
@@ -1058,10 +1034,9 @@
             </div>
           </div>
         `;
-      
-        div.innerHTML = inner;
         temaDiv.appendChild(div);
       }
+    });
 
 
     // Show solution with animation
