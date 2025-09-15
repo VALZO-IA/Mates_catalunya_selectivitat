@@ -1008,13 +1008,28 @@
       
       contenido.appendChild(temaDiv);
 
-      
       // Exercises
       for (let i = 1; i <= tema.ejercicios; i++) {
         const idEj = ejercicioId - tema.ejercicios + i - 1;
         const div = document.createElement("div");
         div.className = "ejercicio";
         div.id = "ej" + idEj;
+      
+        // Condición: si es el primer ejercicio, mostrar iframe de YouTube
+        let videoButton = '';
+        let solucionContent = `<img src="img/sol${idEj}.png" alt="Solución Ejercicio ${i}" loading="lazy">`;
+      
+        if (idEj === 1) {
+          // Mostrar video directamente
+          solucionContent = `<iframe width="100%" height="400" src="https://www.youtube.com/embed/tz2SGDUvGpY" title="YouTube video" frameborder="0" allowfullscreen></iframe>`;
+          videoButton = ''; // no botón de premium
+        } else {
+          // Mantener botón de premium
+          videoButton = `<button class="btn btn-premium" onclick="abrirPopup(${idEj})">
+                          🎥 Explicación en Vídeo Premium
+                         </button>`;
+        }
+      
         div.innerHTML = `
           <div class="ejercicio-contenido">
             <div class="ejercicio-header">
@@ -1029,20 +1044,22 @@
                 <span>👁️</span> Mostrar Solución
               </button>
             </div>
-            <button class="btn btn-premium" onclick="abrirPopup(${idEj})">
-              🎥 Explicación en Vídeo Premium
-            </button>
+            ${videoButton}
           </div>
           <div id="sol${idEj}" class="solucion">
             <div class="solucion-card">
               <div class="solucion-header">✓ Solución</div>
-              <img src="img/sol${idEj}.png" alt="Solución Ejercicio ${i}" loading="lazy">
+              ${solucionContent}
             </div>
           </div>
         `;
+      
         temaDiv.appendChild(div);
       }
-    });
+
+  
+      
+       
 
     // Toggle solution with animation
     window.mostrarSolucion = function(num) {
