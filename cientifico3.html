@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Matemáticas Científico - Preparación para Selectividad 2026. Ejercicios resueltos y videos explicativos.">
+  <meta name="theme-color" content="#2f9e73">
+  <title>Matemáticas Científico - Selectividad 2026</title>
+  
+  <!-- Preload critical assets -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" as="style">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  
+  <style>
+    /* Variables CSS */
+    :root {
+      --primary-color: #2f9e73;
+      --primary-dark: #26845e;
+      --text-color: #333;
+      --text-light: #555;
+      --bg-color: #f8f9fa;
+      --white: #ffffff;
+      --border-color: #e0e0e0;
+      --shadow-sm: 0 3px 8px rgba(0,0,0,0.06);
+      --shadow-md: 0 6px 16px rgba(0,0,0,0.08);
+      --shadow-lg: 0 4px 16px rgba(0,0,0,0.15);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --transition-fast: 0.2s;
+      --transition-normal: 0.3s;
+      --sidebar-width: 240px;
+      --header-height: 56px;
+    }
+
+    /* Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @font-face {
+      font-family: 'Inter';
+      font-display: swap;
+      src: url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      display: flex;
+      background: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Smooth Scrolling */
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: var(--header-height);
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--white);
+      border-right: 1px solid var(--border-color);
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      overflow-y: auto;
+      padding: calc(var(--header-height) + 14px) 15px 20px;
+      transition: transform var(--transition-normal) ease;
+      z-index: 100;
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary-color) var(--white);
+    }
+
+    .sidebar::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .sidebar::-webkit-scrollbar-track {
+      background: var(--white);
+    }
+
+    .sidebar::-webkit-scrollbar-thumb {
+      background-color: var(--primary-color);
+      border-radius: 20px;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      color: var(--primary-color);
+      margin-bottom: 25px;
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+
+    .sidebar summary {
+      cursor: pointer;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      background: #f6f6f6;
+      font-weight: 500;
+      margin-bottom: 5px;
+      transition: all var(--transition-fast) ease;
+      user-select: none;
+      outline: none;
+    }
+
+    .sidebar summary:hover,
+    .sidebar summary:focus {
+      background: #e9f5ef;
+      transform: translateX(3px);
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding-left: 18px;
+      margin: 6px 0 12px;
+    }
+
+    .sidebar ul li {
+      margin: 4px 0;
+    }
+
+    .sidebar ul li a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: all var(--transition-fast);
+      display: block;
+      padding: 4px 0;
+    }
+
+    .sidebar ul li a:hover,
+    .sidebar ul li a:focus {
+      color: var(--primary-color);
+      transform: translateX(2px);
+    }
+
+    /* Content Area */
+    .content {
+      margin-left: var(--sidebar-width);
+      padding: 25px;
+      flex: 1;
+      min-height: calc(100vh - 100px);
+      padding-top: calc(var(--header-height) + 24px);
+      max-width: 1200px;
+      margin-right: auto;
+    }
+
+    .tema h2 {
+      text-align: center;
+      color: var(--primary-color);
+      margin: 40px 0 25px;
+      font-size: 1.375rem;
+      font-weight: 600;
+      position: relative;
+    }
+
+    .tema h2::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: var(--primary-color);
+      margin: 12px auto 0;
+      border-radius: 2px;
+    }
+
+    /* Exercise Cards */
+    .ejercicio {
+      margin-bottom: 40px;
+      padding: 25px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-normal) ease;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ejercicio:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .ejercicio-contenido {
+      flex: 1;
+      text-align: center;
+    }
+
+    .ejercicio-contenido h3 {
+      margin-top: 0;
+      font-size: 1.125rem;
+      font-weight: 500;
+      color: var(--primary-color);
+    }
+
+    .ejercicio-contenido img {
+      display: block;
+      margin: 12px auto;
+      max-width: 95%;
+      height: auto;
+      border-radius: var(--radius-sm);
+      transition: transform var(--transition-fast) ease;
+    }
+
+    .ejercicio-contenido img:hover {
+      transform: scale(1.02);
+    }
+
+    /* Buttons */
+    .btn {
+      background: var(--primary-color);
+      color: var(--white);
+      border: none;
+      padding: 9px 18px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all var(--transition-fast) ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn:hover,
+    .btn:focus {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    /* Solution Section */
+    .solucion {
+      flex: 1;
+      display: none;
+      text-align: center;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .solucion img {
+      max-width: 100%;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Premium Video Section */
+    .video {
+      margin-top: 15px;
+      padding: 12px;
+      border: 1px dashed var(--primary-color);
+      border-radius: var(--radius-sm);
+      text-align: center;
+      color: var(--text-light);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all var(--transition-fast) ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .video:hover {
+      background: #f2fdf7;
+      transform: translateY(-1px);
+    }
+
+    .video::before {
+      content: '🔒';
+      font-size: 1rem;
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: var(--sidebar-width);
+      width: calc(100% - var(--sidebar-width));
+      background: var(--primary-color);
+      color: var(--white);
+      padding: 12px 20px;
+      font-weight: 500;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      height: var(--header-height);
+    }
+
+    .header span {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .header button {
+      background: var(--white);
+      color: var(--primary-color);
+      border: 1px solid transparent;
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all var(--transition-fast) ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .header button:hover {
+      background: var(--primary-color);
+      color: var(--white);
+      border-color: var(--white);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--white);
+      color: var(--text-light);
+      text-align: center;
+      padding: 14px;
+      font-size: 0.8125rem;
+      border-top: 1px solid var(--border-color);
+      position: fixed;
+      bottom: 0;
+      left: var(--sidebar-width);
+      width: calc(100% - var(--sidebar-width));
+      box-shadow: 0 -1px 4px rgba(0,0,0,0.05);
+      z-index: 90;
+    }
+
+    /* Popup Modal */
+    #popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn var(--transition-normal) ease;
+    }
+
+    #popup .box {
+      background: var(--white);
+      padding: 25px;
+      border-radius: var(--radius-md);
+      width: min(90%, 320px);
+      text-align: center;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-lg);
+      animation: slideUp var(--transition-normal) ease;
+    }
+
+    #popup h3 {
+      margin-top: 0;
+      color: var(--primary-color);
+      font-size: 1.25rem;
+      margin-bottom: 12px;
+    }
+
+    #popup p {
+      color: var(--text-light);
+      font-size: 0.875rem;
+      margin-bottom: 16px;
+    }
+
+    #popup input {
+      width: 90%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      transition: border-color var(--transition-fast) ease;
+    }
+
+    #popup input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(47,158,115,0.1);
+    }
+
+    #popup button {
+      padding: 9px 16px;
+      border: none;
+      border-radius: var(--radius-sm);
+      margin: 6px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: all var(--transition-fast) ease;
+    }
+
+    #popup .enviar {
+      background: var(--primary-color);
+      color: var(--white);
+    }
+
+    #popup .enviar:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    #popup .cerrar {
+      background: #f0f0f0;
+      color: var(--text-color);
+    }
+
+    #popup .cerrar:hover {
+      background: #e0e0e0;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { 
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* Loading States */
+    .loading {
+      position: relative;
+    }
+
+    .loading::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.875rem;
+      color: var(--primary-color);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .content {
+        padding: 20px;
+      }
+      
+      .ejercicio {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --sidebar-width: 100%;
+      }
+
+      .header {
+        left: 0;
+        width: 100%;
+        padding: 10px 14px;
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+        position: fixed;
+        z-index: 999;
+        box-shadow: var(--shadow-md);
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .content {
+        margin-left: 0;
+        padding-top: calc(var(--header-height) + 15px);
+      }
+
+      footer {
+        left: 0;
+        width: 100%;
+      }
+
+      .ejercicio {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .solucion {
+        margin-top: 15px;
+      }
+
+      .ejercicio-contenido img {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header span {
+        font-size: 0.875rem;
+      }
+
+      .header button {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+      }
+
+      .tema h2 {
+        font-size: 1.25rem;
+      }
+
+      .ejercicio {
+        padding: 15px;
+      }
+    }
+
+    /* Print Styles */
+    @media print {
+      .sidebar,
+      .header,
+      .footer,
+      .btn,
+      .video {
+        display: none !important;
+      }
+
+      .content {
+        margin: 0;
+        padding: 0;
+      }
+
+      .ejercicio {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ddd;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <button onclick="window.location.href='index.html'" aria-label="Volver">
+      <span aria-hidden="true">⬅</span> Volver
+    </button>
+    <span>Matemáticas Científico</span>
+    <button onclick="toggleMenu()" aria-label="Abrir menú">
+      <span aria-hidden="true">☰</span> Menú
+    </button>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <h2>Índice</h2>
+    <div id="indice" role="navigation"></div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="content" id="contenido"></main>
+
+  <!-- Footer -->
+  <footer>
+    <p>🔒 Contáctanos para las explicaciones en vídeo.</p>
+  </footer>
+
+  <!-- Premium Video Modal -->
+  <div id="popup" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="box">
+      <h3 id="modalTitle">Accede al Video Premium</h3>
+      <p>Déjanos tu correo, número de teléfono y nos pondremos en contacto contigo.</p>
+      <form id="contactForm" onsubmit="guardarCorreo(event)">
+        <input 
+          type="email" 
+          id="correoInput" 
+          placeholder="Tu correo" 
+          required 
+          aria-label="Correo electrónico"
+          pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+        >
+        <input 
+          type="tel" 
+          id="telefonoInput" 
+          placeholder="Tu teléfono" 
+          required 
+          aria-label="Número de teléfono"
+          pattern="[0-9]{7,15}"
+        >
+        <button type="submit" class="enviar">Enviar</button>
+        <button type="button" class="cerrar" onclick="cerrarPopup()">Cancelar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script type="module">
+    // Firebase Configuration and Initialization
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+    import { 
+      getFirestore, 
+      collection, 
+      addDoc, 
+      serverTimestamp 
+    } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC8XKDRQ6iRdpEJXcaCp8vqaALVk7Di_P8",
+      authDomain: "mates-catalunya-selectividad.firebaseapp.com",
+      projectId: "mates-catalunya-selectividad",
+      storageBucket: "mates-catalunya-selectividad.firebasestorage.app",
+      messagingSenderId: "902089237800",
+      appId: "1:902089237800:web:96e74744749ea7f2a21c1d",
+      measurementId: "G-XDJTHHEL8Y"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Content Configuration
+    const temas = [
+      { nombre: "Matrius i sistemes d'equacions lineals", ejercicios: 15 },
+      { nombre: "Geometria de l'espai", ejercicios: 15 },
+      { nombre: "Funcions I - Aplicacions Derivades", ejercicios: 15 },
+      { nombre: "Funcions II - Problemes Optimització", ejercicios: 15 },
+      { nombre: "Funcions III - Integrals", ejercicios: 15 },
+      { nombre: "Probabilitat", ejercicios: 15 }
+    ];
+
+    // DOM Elements
+    const indice = document.getElementById("indice");
+    const contenido = document.getElementById("contenido");
+    let ejercicioId = 1;
+
+    // Generate Content
+    temas.forEach((tema, tIndex) => {
+      // Create Navigation
+      const details = document.createElement("details");
+      const summary = document.createElement("summary");
+      summary.textContent = tema.nombre;
+      details.appendChild(summary);
+
+      const ul = document.createElement("ul");
+      for (let i = 1; i <= tema.ejercicios; i++) {
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="#ej${ejercicioId}" onclick="closeMenuOnMobile()">${tema.nombre} - Ejercicio ${i}</a>`;
+        ul.appendChild(li);
+        ejercicioId++;
+      }
+      details.appendChild(ul);
+      indice.appendChild(details);
+
+      // Create Content Section
+      const temaDiv = document.createElement("div");
+      temaDiv.className = "tema";
+      temaDiv.innerHTML = `<h2>${tema.nombre}</h2>`;
+      contenido.appendChild(temaDiv);
+
+      // Create Exercise Cards
+      for (let i = 1; i <= tema.ejercicios; i++) {
+        const idEj = ejercicioId - tema.ejercicios + i - 1;
+        const div = document.createElement("div");
+        div.className = "ejercicio";
+        div.id = "ej" + idEj;
+
+        div.innerHTML = `
+          <div class="ejercicio-contenido">
+            <h3>${tema.nombre} - Ejercicio ${i}</h3>
+            <img 
+              src="img/ej${idEj}.png" 
+              alt="Enunciado del ejercicio ${i} de ${tema.nombre}"
+              loading="lazy"
+            >
+            <button 
+              class="btn" 
+              onclick="mostrarSolucion(${idEj})"
+              aria-expanded="false"
+              aria-controls="sol${idEj}"
+            >
+              Mostrar Solución
+            </button>
+            <div 
+              class="video" 
+              onclick="abrirPopup(${idEj})"
+              role="button"
+              tabindex="0"
+              aria-label="Acceder al video premium del ejercicio ${i}"
+            >
+              Video Premium - Haz clic para acceder
+            </div>
+          </div>
+          <div 
+            id="sol${idEj}" 
+            class="solucion"
+            aria-hidden="true"
+          >
+            <img 
+              src="img/sol${idEj}.png" 
+              alt="Solución del ejercicio ${i} de ${tema.nombre}"
+              loading="lazy"
+            >
+          </div>
+        `;
+        temaDiv.appendChild(div);
+      }
+    });
+
+    // Global Functions
+    window.mostrarSolucion = function(num) {
+      const solDiv = document.getElementById("sol" + num);
+      const btn = solDiv.previousElementSibling.querySelector('.btn');
+      
+      if (solDiv.style.display === "block") {
+        solDiv.style.display = "none";
+        solDiv.setAttribute("aria-hidden", "true");
+        btn.setAttribute("aria-expanded", "false");
+        btn.textContent = "Mostrar Solución";
+      } else {
+        solDiv.style.display = "block";
+        solDiv.setAttribute("aria-hidden", "false");
+        btn.setAttribute("aria-expanded", "true");
+        btn.textContent = "Ocultar Solución";
+      }
+    }
+
+    let ejercicioSeleccionado = null;
+
+    window.abrirPopup = function(num) {
+      ejercicioSeleccionado = num;
+      const popup = document.getElementById("popup");
+      popup.style.display = "flex";
+      document.getElementById("correoInput").focus();
+      document.body.style.overflow = "hidden";
+    }
+
+    window.cerrarPopup = function() {
+      document.getElementById("popup").style.display = "none";
+      document.body.style.overflow = "";
+    }
+
+    window.guardarCorreo = async function(event) {
+      event.preventDefault();
+      
+      const form = event.target;
+      const correoInput = document.getElementById("correoInput");
+      const telefonoInput = document.getElementById("telefonoInput");
+      
+      try {
+        form.classList.add('loading');
+        
+        await addDoc(collection(db, "correos"), {
+          email: correoInput.value,
+          telefono: telefonoInput.value,
+          ejercicio: ejercicioSeleccionado,
+          fecha: serverTimestamp()
+        });
+
+        // Success feedback
+        const successMessage = document.createElement('div');
+        successMessage.style.color = '#2f9e73';
+        successMessage.style.padding = '10px';
+        successMessage.innerHTML = '✅ Gracias, nos pondremos en contacto contigo.';
+        form.appendChild(successMessage);
+
+        // Reset form
+        correoInput.value = "";
+        telefonoInput.value = "";
+        
+        // Close popup after delay
+        setTimeout(() => {
+          cerrarPopup();
+          form.removeChild(successMessage);
+        }, 2000);
+
+      } catch (e) {
+        console.error("Error al guardar:", e);
+        
+        // Error feedback
+        const errorMessage = document.createElement('div');
+        errorMessage.style.color = '#dc3545';
+        errorMessage.style.padding = '10px';
+        errorMessage.innerHTML = '❌ Error al guardar los datos. Por favor, inténtalo de nuevo.';
+        form.appendChild(errorMessage);
+        
+        setTimeout(() => {
+          form.removeChild(errorMessage);
+        }, 3000);
+      } finally {
+        form.classList.remove('loading');
+      }
+    }
+
+    window.toggleMenu = function() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("active");
+    }
+
+    window.closeMenuOnMobile = function() {
+      if (window.innerWidth <= 768) {
+        document.getElementById("sidebar").classList.remove("active");
+      }
+    }
+
+    // Close popup on escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        cerrarPopup();
+      }
+    });
+
+    // Close popup on outside click
+    document.getElementById('popup').addEventListener('click', function(e) {
+      if (e.target === this) {
+        cerrarPopup();
+      }
+    });
+
+    // Handle form submission with enter key
+    document.getElementById('contactForm').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        guardarCorreo(e);
+      }
+    });
+
+    // Load first section open by default
+    document.querySelector('details').setAttribute('open', '');
+  </script>
+</body>
+</html>
