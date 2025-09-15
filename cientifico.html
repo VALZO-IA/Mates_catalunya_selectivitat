@@ -1067,24 +1067,29 @@
     };
 
     
-    
 
-    // Smooth scroll to exercise
+    // Smooth scroll to exercise sin desaparecer la carta
     window.scrollToExercise = function(id) {
       const element = document.getElementById(id);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        // Add highlight effect
-        element.style.animation = 'none';
+        const headerHeight = document.querySelector(".header").offsetHeight || 70;
+        const elementTop = element.getBoundingClientRect().top + window.scrollY;
+        const offset = elementTop - headerHeight - 20;
+        window.scrollTo({ top: offset, behavior: 'smooth' });
+    
+        // Efecto highlight (sin ocultar el ejercicio)
+        element.classList.add("highlight");
         setTimeout(() => {
-          element.style.animation = 'fadeInUp 0.6s ease';
-        }, 10);
+          element.classList.remove("highlight");
+        }, 1200);
       }
-      // Close sidebar on mobile
+    
+      // Cerrar sidebar en móvil
       if (window.innerWidth <= 1024) {
         document.getElementById("sidebar").classList.remove("active");
       }
-    }
+    };
+
 
     // Premium popup
     let ejercicioSeleccionado = null;
