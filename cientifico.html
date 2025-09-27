@@ -1044,32 +1044,6 @@
               <img src="img/img${idEj}.png" alt="Enunciado Ejercicio ${i}" loading="lazy">
             </div>
         
-            ${idEj === 1 ? `
-              <div class="ejercicio-actions">
-                <button class="btn btn-primary" onclick="mostrarSolucion(${idEj})" data-tooltip="Ver la solución">
-                  <span>👁️</span> Mostrar Solución
-                </button>
-              </div>
-              <div class="ejercicio-video">
-                <iframe 
-                  src="https://drive.google.com/file/d/1ZQD-p7t8nlaVsyo0_pvHh410-xlnmeRQ/preview" 
-                  width="100%" 
-                  height="480" 
-                  allow="autoplay"
-                  frameborder="0"
-                  allowfullscreen>
-                </iframe>
-              </div>
-            ` : `
-              <div class="ejercicio-actions">
-                <button class="btn btn-primary" onclick="mostrarSolucion(${idEj})" data-tooltip="Ver la solución">
-                  <span>👁️</span> Mostrar Solución
-                </button>
-              </div>
-              <button class="btn btn-premium" onclick="abrirPopup(${idEj})">
-                🎥 Explicación en Vídeo Premium
-              </button>
-            `}
         
           </div>
           <div id="sol${idEj}" class="solucion">
