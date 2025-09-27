@@ -3,11 +3,1306 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Matemáticas Social - PAU</title>
+  <title>Matemáticas Social - Selectividad 2026</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #10b981;
+      --primary-dark: #059669;
+      --primary-light: #34d399;
+      --secondary: #8b5cf6;
+      --accent: #f59e0b;
+      --dark: #1f2937;
+      --gray: #6b7280;
+      --light-gray: #f3f4f6;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      --gradient-warm: linear-gradient(135deg, #f59e0b 0%, #dc2626 100%);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(255, 219, 98, 0.2) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Animated Background Particles */
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.5; }
+      50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+    }
+
+    .bg-decoration {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bg-decoration::before,
+    .bg-decoration::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      animation: float 20s infinite ease-in-out;
+    }
+
+    .bg-decoration::before {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+      top: -200px;
+      right: -200px;
+    }
+
+    .bg-decoration::after {
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+      bottom: -300px;
+      left: -300px;
+      animation-delay: 10s;
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .header-logo .icon {
+      width: 40px;
+      height: 40px;
+      background: var(--gradient-primary);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: white;
+      font-weight: bold;
+      box-shadow: var(--shadow-md);
+    }
+
+    .header-title {
+      font-size: 20px;
+      font-weight: 700;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-nav {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .btn-header {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-back {
+      background: rgba(102, 126, 234, 0.1);
+      color: #667eea;
+    }
+
+    .btn-back:hover {
+      background: rgba(102, 126, 234, 0.2);
+      transform: translateX(-3px);
+    }
+
+    .btn-menu {
+      background: var(--gradient-primary);
+      color: white;
+      display: none;
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-menu:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 70px;
+      left: 0;
+      width: 280px;
+      height: calc(100vh - 70px);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-right: 1px solid rgba(255, 255, 255, 0.2);
+      overflow-y: auto;
+      padding: 30px 20px;
+      z-index: 999;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sidebar::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .sidebar::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 3px;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb {
+      background: var(--gradient-primary);
+      border-radius: 3px;
+    }
+
+    .sidebar-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 25px;
+      padding-left: 10px;
+    }
+
+    .sidebar details {
+      margin-bottom: 15px;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+    }
+
+    .sidebar details[open] {
+      box-shadow: var(--shadow-md);
+      background: linear-gradient(145deg, #ffffff 0%, #f9fafb 100%);
+    }
+
+    .sidebar summary {
+      cursor: pointer;
+      padding: 15px 20px;
+      font-weight: 600;
+      color: var(--dark);
+      transition: all 0.3s ease;
+      user-select: none;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sidebar summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .sidebar summary::after {
+      content: '▶';
+      font-size: 12px;
+      transition: transform 0.3s ease;
+      color: var(--gray);
+    }
+
+    .sidebar details[open] summary::after {
+      transform: rotate(90deg);
+    }
+
+    .sidebar summary:hover {
+      background: linear-gradient(90deg, rgba(102, 126, 234, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+      padding-left: 25px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0 20px 15px;
+      margin: 0;
+    }
+
+    .sidebar ul li {
+      margin: 5px 0;
+    }
+
+    .sidebar ul li a {
+      display: block;
+      padding: 10px 15px;
+      color: var(--gray);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-size: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sidebar ul li a::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 0;
+      background: var(--gradient-primary);
+      transition: height 0.3s ease;
+    }
+
+    .sidebar ul li a:hover {
+      background: linear-gradient(90deg, rgba(102, 126, 234, 0.1) 0%, transparent 100%);
+      color: #667eea;
+      padding-left: 25px;
+    }
+
+    .sidebar ul li a:hover::before {
+      height: 70%;
+    }
+
+    /* Content */
+    .content {
+      margin-left: 280px;
+      padding: 100px 30px 30px;
+      min-height: 100vh;
+      position: relative;
+      z-index: 2;
+    }
+
+    .tema {
+      margin-bottom: 60px;
+    }
+
+    .tema-header {
+      text-align: center;
+      margin: 60px 0 40px;
+      position: relative;
+    }
+
+    .tema-header h2 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #ffffff; /* blanco puro */
+      margin-bottom: 10px;
+      animation: fadeInUp 0.6s ease;
+    }
+
+
+
+    .tema-header::before,
+    .tema-header::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 100px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.3), transparent);
+    }
+
+    .tema-header::before {
+      left: 50%;
+      transform: translateX(-200px) translateY(-50%);
+    }
+
+    .tema-header::after {
+      right: 50%;
+      transform: translateX(200px) translateY(-50%);
+    }
+
+    /* Exercise Cards */
+    .ejercicio {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      gap: 30px;
+      align-items: flex-start;
+      scroll-margin-top: 100px; /* compensa header fijo */
+    }
+
+    .ejercicio::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-primary);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+
+    .ejercicio:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    }
+
+    .ejercicio:hover::before {
+      transform: scaleX(1);
+    }
+
+    .ejercicio-contenido {
+      flex: 1;
+      text-align: center;
+    }
+
+    .ejercicio-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .ejercicio-numero {
+      width: 40px;
+      height: 40px;
+      background: var(--gradient-primary);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .ejercicio-contenido h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--dark);
+      margin: 0;
+    }
+
+    .ejercicio-imagen {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      margin: 20px 0;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+    }
+
+    .ejercicio-imagen:hover {
+      box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .ejercicio-imagen img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      display: block;
+    }
+
+    .ejercicio-actions {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .ejercicio.highlight {
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.6), 0 10px 40px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.8s ease;
+    }
+
+    .ejercicio-video {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    
+    
+    .ejercicio-video iframe {
+      width: 100%;
+      max-width: 400px;   /* más estrecho, estilo móvil */
+      height: 533px;      /* más alto para 9:16 */
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+    }
+
+
+
+    /* Buttons */
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .btn-primary {
+      background: var(--gradient-success);
+      color: white;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-premium {
+      background: var(--gradient-warm);
+      color: white;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+      width: 100%;
+      margin-top: 15px;
+      padding: 15px;
+      font-size: 15px;
+      position: relative;
+    }
+
+    .btn-premium::after {
+      content: '⭐';
+      position: absolute;
+      right: 20px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.8; }
+    }
+
+    .btn-premium:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(245, 158, 11, 0.4);
+    }
+
+    /* Solution */
+    .solucion {
+      flex: 1;
+      opacity: 0;
+      transform: translateX(20px);
+      transition: all 0.5s ease;
+      display: none;
+    }
+
+    .solucion.visible {
+      opacity: 1;
+      transform: translateX(0);
+      display: block;
+    }
+
+    .solucion-card {
+      background: linear-gradient(145deg, #f0fdf4 0%, #dcfce7 100%);
+      border-radius: 12px;
+      padding: 20px;
+      border: 2px solid #10b981;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);
+    }
+
+    .solucion-header {
+      font-size: 14px;
+      font-weight: 600;
+      color: #10b981;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .solucion img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Popup Modal */
+    #popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    #popup.active {
+      display: flex;
+    }
+
+    .popup-box {
+      background: white;
+      border-radius: 24px;
+      padding: 40px;
+      width: 90%;
+      max-width: 480px;
+      text-align: center;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+      animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .popup-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .popup-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--gradient-warm);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 40px;
+      box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .popup-box h3 {
+      font-size: 28px;
+      font-weight: 800;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 15px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .popup-box p {
+      color: var(--gray);
+      margin-bottom: 30px;
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+
+    .popup-inputs {
+      position: relative;
+      z-index: 1;
+    }
+
+    .popup-input {
+      width: 100%;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    .popup-input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    }
+
+    .popup-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .popup-actions button {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-enviar {
+      background: var(--gradient-primary);
+      color: white;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-enviar:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-cancelar {
+      background: #f3f4f6;
+      color: var(--gray);
+    }
+
+    .btn-cancelar:hover {
+      background: #e5e7eb;
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      color: var(--gray);
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      margin-top: 60px;
+      margin-left: 280px;
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 2;
+    }
+
+    footer .footer-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    footer .footer-icon {
+      font-size: 20px;
+      animation: pulse 2s infinite;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { 
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+        box-shadow: 5px 0 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .content {
+        margin-left: 0;
+      }
+
+      footer {
+        margin-left: 0;
+      }
+
+      .btn-menu {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        padding: 0 20px;
+      }
+
+      .header-title {
+        font-size: 16px;
+      }
+
+      .content {
+        padding: 90px 20px 20px;
+      }
+
+      .ejercicio {
+        flex-direction: column;
+        padding: 20px;
+      }
+
+      .solucion {
+        margin-top: 20px;
+      }
+
+      .tema-header h2 {
+        font-size: 24px;
+      }
+
+      .tema-header::before,
+      .tema-header::after {
+        display: none;
+      }
+
+      .popup-box {
+        padding: 30px 20px;
+        margin: 20px;
+      }
+    }
+
+    /* Loading Animation */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Tooltips */
+    [data-tooltip] {
+      position: relative;
+    }
+
+    [data-tooltip]:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--dark);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      white-space: nowrap;
+      z-index: 1000;
+      pointer-events: none;
+      opacity: 0;
+      animation: fadeIn 0.3s forwards;
+      margin-bottom: 5px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Matemáticas Social</h1>
-  <p>Aquí irán los exámenes y ejercicios organizados por años.</p>
-  <a href="index.html">⬅️ Volver</a>
+  <!-- Background Decoration -->
+  <div class="bg-decoration"></div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-logo">
+      <div class="icon">∑</div>
+      <div class="header-title">Matemáticas Social 2026</div>
+    </div>
+    <div class="header-nav">
+      <button class="btn-header btn-back" onclick="window.location.href='index.html'">
+        <span>←</span> Volver al Inicio
+      </button>
+      <button class="btn-header btn-menu" onclick="toggleMenu()">
+        <span>☰</span> Menú
+      </button>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-title">📚 Contenido del Curso</div>
+    <div id="indice"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="content" id="contenido"></div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <span class="footer-icon">🎓</span>
+      <span>No pierdas tiempo: clases particulares para triunfar en Selectividad. Déjanos tus datos y nos pondremos en contacto lo antes posible.</span>
+      <span class="footer-icon">✨</span>
+    </div>
+  </footer>
+
+  <!-- Premium Access Popup -->
+  <div id="popup">
+    <div class="popup-box">
+      <div class="popup-icon">⭐</div>
+      <h3>Clases Particulares</h3>
+      <p>No pierdas tiempo: clases particulares para triunfar en Selectividad. Déjanos tus datos y nos pondremos en contacto lo antes posible.</p>
+      <div class="popup-inputs">
+        <input type="email" class="popup-input" id="correoInput" placeholder="Tu correo electrónico" required>
+        <input type="tel" class="popup-input" id="telefonoInput" placeholder="Tu número de teléfono" required>
+      </div>
+      <div class="popup-actions">
+        <button class="btn-enviar" onclick="guardarCorreo()">
+          Enviar
+        </button>
+        <button class="btn-cancelar" onclick="cerrarPopup()">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase and Scripts -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC8XKDRQ6iRdpEJXcaCp8vqaALVk7Di_P8",
+      authDomain: "mates-catalunya-selectividad.firebaseapp.com",
+      projectId: "mates-catalunya-selectividad",
+      storageBucket: "mates-catalunya-selectividad.firebasestorage.app",
+      messagingSenderId: "902089237800",
+      appId: "1:902089237800:web:96e74744749ea7f2a21c1d",
+      measurementId: "G-XDJTHHEL8Y"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const temas = [
+      { nombre: "Matrius", ejercicios: 15, icon: "📊" },
+      { nombre: "Problemes de sistemes d'equacions", ejercicios: 15, icon: "📐" },
+      { nombre: "Funcions I - Aplicacions Derivades", ejercicios: 15, icon: "📈" },
+      { nombre: "Funcions II - Problemes Optimització", ejercicios: 15, icon: "🎯" },
+      { nombre: "Probabilitat i Estadística", ejercicios: 15, icon: "🎲" }
+    ];
+
+    const indice = document.getElementById("indice");
+    const contenido = document.getElementById("contenido");
+    let ejercicioId = 1;
+
+    // Generate sidebar and content
+    temas.forEach((tema, tIndex) => {
+      // Sidebar
+      const details = document.createElement("details");
+      //if (tIndex === 0) details.setAttribute("open", "true");
+      
+      const summary = document.createElement("summary");
+      summary.innerHTML = `<span>${tema.icon} ${tema.nombre}</span>`;
+      details.appendChild(summary);
+
+      const ul = document.createElement("ul");
+      for (let i = 1; i <= tema.ejercicios; i++) {
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="javascript:void(0)" onclick="scrollToExercise('ej${ejercicioId}')">Ejercicio ${i}</a>`;
+        ul.appendChild(li);
+        ejercicioId++;
+      }
+      details.appendChild(ul);
+      indice.appendChild(details);
+
+      // Content
+      const temaDiv = document.createElement("div");
+      temaDiv.className = "tema";
+      
+      const temaHeader = document.createElement("div");
+      temaHeader.className = "tema-header";
+      temaHeader.innerHTML = `<h2>${tema.icon} ${tema.nombre}</h2>`;
+      temaDiv.appendChild(temaHeader);
+      
+      contenido.appendChild(temaDiv);
+
+      // Exercises
+      for (let i = 1; i <= tema.ejercicios; i++) {
+        const idEj = ejercicioId - tema.ejercicios + i - 1;
+        const div = document.createElement("div");
+        div.className = "ejercicio";
+        div.id = "ej" + idEj;
+        div.innerHTML = `
+          <div class="ejercicio-contenido">
+            <div class="ejercicio-header">
+              <div class="ejercicio-numero">${i}</div>
+              <h3>Ejercicio ${i}</h3>
+            </div>
+            <div class="ejercicio-imagen">
+              <img src="img/social/img${idEj}.png" alt="Enunciado Ejercicio ${i}" loading="lazy">
+            </div>
+
+           
+            
+            <div class="ejercicio-actions">
+              <button class="btn btn-primary" onclick="mostrarSolucion(${idEj})" data-tooltip="Ver la solución">
+                <span>👁️</span> Mostrar Solución
+              </button>
+            </div>
+            
+            <button class="btn btn-premium" onclick="abrirPopup(${idEj})">
+              🎥 Clases Particulares
+            </button>
+          
+        
+        
+          </div>
+          <div id="sol${idEj}" class="solucion">
+            <div class="solucion-card">
+              <div class="solucion-header">✓ Solución</div>
+              <img src="img/social/sol${idEj}.png" alt="Solución Ejercicio ${i}" loading="lazy">
+            </div>
+          </div>
+        `;
+        
+         
+        temaDiv.appendChild(div);
+      }
+    });
+
+      
+     
+  
+      
+       
+
+    // Toggle solution with animation
+    window.mostrarSolucion = function(num) {
+      const solDiv = document.getElementById("sol" + num);
+      const ejercicio = document.getElementById("ej" + num);
+      const btn = ejercicio.querySelector(".btn-primary");
+    
+      if (solDiv.classList.contains("visible")) {
+        // Ocultar solución
+        solDiv.classList.remove("visible");
+        setTimeout(() => {
+          solDiv.style.display = "none";
+        }, 500); // esperar a que acabe la transición
+        btn.innerHTML = '<span>👁️</span> Mostrar Solución';
+        btn.disabled = false;
+        btn.style.opacity = "1";
+      } else {
+        // Mostrar solución
+        solDiv.style.display = "block";
+        setTimeout(() => {
+          solDiv.classList.add("visible");
+        }, 10);
+        btn.innerHTML = '<span>✓</span> Ocultar Solución';
+        btn.disabled = false;
+        btn.style.opacity = "1";
+      }
+    };
+
+    
+
+    // Smooth scroll to exercise sin desaparecer la carta
+    window.scrollToExercise = function(id) {
+      const element = document.getElementById(id);
+      if (element) {
+        const headerHeight = document.querySelector(".header").offsetHeight || 70;
+        const elementTop = element.getBoundingClientRect().top + window.scrollY;
+        const offset = elementTop - headerHeight - 20;
+        window.scrollTo({ top: offset, behavior: 'smooth' });
+    
+        // Efecto highlight (sin ocultar el ejercicio)
+        element.classList.add("highlight");
+        setTimeout(() => {
+          element.classList.remove("highlight");
+        }, 1200);
+      }
+    
+      // Cerrar sidebar en móvil
+      if (window.innerWidth <= 1024) {
+        document.getElementById("sidebar").classList.remove("active");
+      }
+    };
+
+
+    // Premium popup
+    let ejercicioSeleccionado = null;
+    
+    window.abrirPopup = function(num) {
+      ejercicioSeleccionado = num;
+      const popup = document.getElementById("popup");
+      popup.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+    
+    window.cerrarPopup = function() {
+      const popup = document.getElementById("popup");
+      popup.classList.remove("active");
+      document.body.style.overflow = "auto";
+      // Clear inputs
+      document.getElementById("correoInput").value = "";
+      document.getElementById("telefonoInput").value = "";
+    }
+
+    // Save contact info to Firebase
+    window.guardarCorreo = async function() {
+      const correo = document.getElementById("correoInput").value.trim();
+      const telefono = document.getElementById("telefonoInput").value.trim();
+      
+      // Validation
+      if (!correo || !telefono) {
+        showNotification("⚠️ Por favor completa todos los campos", "warning");
+        return;
+      }
+      
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(correo)) {
+        showNotification("⚠️ Por favor introduce un correo válido", "warning");
+        return;
+      }
+      
+      const phoneRegex = /^\+?[0-9]{7,15}$/;
+      if (!phoneRegex.test(telefono.replace(/\s/g, ''))) {
+        showNotification("⚠️ Por favor introduce un teléfono válido", "warning");
+        return;
+      }
+
+      // Show loading state
+      const btnEnviar = document.querySelector(".btn-enviar");
+      const originalText = btnEnviar.innerHTML;
+      btnEnviar.innerHTML = '<span class="loading"></span> Enviando...';
+      btnEnviar.disabled = true;
+
+      try {
+        await addDoc(collection(db, "correos"), {
+          email: correo,
+          telefono: telefono,
+          ejercicio: ejercicioSeleccionado,
+          tema: Math.ceil(ejercicioSeleccionado / 15),
+          fecha: serverTimestamp(),
+          origen: window.location.hostname
+        });
+        
+        showNotification("✅ ¡Perfecto! Te contactaremos pronto con tu acceso premium", "success");
+        cerrarPopup();
+      } catch (error) {
+        console.error("Error:", error);
+        showNotification("❌ Hubo un error. Por favor, intenta de nuevo", "error");
+      } finally {
+        btnEnviar.innerHTML = originalText;
+        btnEnviar.disabled = false;
+      }
+    }
+
+    // Toggle mobile menu
+    window.toggleMenu = function() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("active");
+    }
+
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener("click", function(event) {
+      const sidebar = document.getElementById("sidebar");
+      const menuBtn = document.querySelector(".btn-menu");
+      
+      if (window.innerWidth <= 1024 && 
+          !sidebar.contains(event.target) && 
+          !menuBtn.contains(event.target) && 
+          sidebar.classList.contains("active")) {
+        sidebar.classList.remove("active");
+      }
+    });
+
+    // Show notification
+    function showNotification(message, type = "info") {
+      const notification = document.createElement("div");
+      notification.style.cssText = `
+        position: fixed;
+        top: 90px;
+        right: 20px;
+        padding: 15px 20px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        z-index: 3000;
+        animation: slideInRight 0.3s ease;
+        max-width: 300px;
+        border-left: 4px solid ${
+          type === "success" ? "#10b981" : 
+          type === "warning" ? "#f59e0b" : 
+          type === "error" ? "#ef4444" : "#3b82f6"
+        };
+      `;
+      notification.textContent = message;
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.animation = "slideOutRight 0.3s ease forwards";
+        setTimeout(() => notification.remove(), 300);
+      }, 4000);
+    }
+
+    // Add slide animations
+    const style = document.createElement("style");
+    style.textContent = `
+      @keyframes slideInRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes slideOutRight {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Intersection Observer for animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animation = "fadeInUp 0.6s ease forwards";
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // Observe all exercises
+    document.querySelectorAll(".ejercicio").forEach(el => {
+      el.style.opacity = "0";
+      observer.observe(el);
+    });
+
+    // Smooth page load
+    window.addEventListener("load", () => {
+      document.body.style.opacity = "0";
+      document.body.style.transition = "opacity 0.5s ease";
+      setTimeout(() => {
+        document.body.style.opacity = "1";
+      }, 100);
+    });
+
+    // Handle escape key for popup
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && document.getElementById("popup").classList.contains("active")) {
+        cerrarPopup();
+      }
+    });
+
+    // Add loading state to images
+    document.querySelectorAll("img").forEach(img => {
+      img.addEventListener("load", function() {
+        this.style.animation = "fadeIn 0.3s ease";
+      });
+    });
+  </script>
 </body>
 </html>
